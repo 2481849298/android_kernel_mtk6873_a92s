@@ -1404,7 +1404,7 @@ static char *cgroup_file_name(struct cgroup *cgrp, const struct cftype *cft,
 			 cgroup_on_dfl(cgrp) ? ss->name : ss->legacy_name,
 			 cft->name);
 	else
-		strncpy(buf, cft->name, CGROUP_FILE_NAME_MAX);
+		strscpy(buf, cft->name, CGROUP_FILE_NAME_MAX);
 	return buf;
 }
 
@@ -1882,9 +1882,15 @@ void init_cgroup_root(struct cgroup_root *root, struct cgroup_sb_opts *opts)
 
 	root->flags = opts->flags;
 	if (opts->release_agent)
+<<<<<<< HEAD
 		strcpy(root->release_agent_path, opts->release_agent);
 	if (opts->name)
 		strcpy(root->name, opts->name);
+=======
+		strscpy(root->release_agent_path, opts->release_agent, PATH_MAX);
+	if (opts->name)
+		strscpy(root->name, opts->name, MAX_CGROUP_ROOT_NAMELEN);
+>>>>>>> 2a1706a5b258e (BACKPORT: string: drop __must_check from strscpy() and restore strscpy() usages in cgroup)
 	if (opts->cpuset_clone_children)
 		set_bit(CGRP_CPUSET_CLONE_CHILDREN, &root->cgrp.flags);
 }
