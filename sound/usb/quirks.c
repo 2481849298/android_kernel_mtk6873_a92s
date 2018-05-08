@@ -1064,6 +1064,8 @@ int snd_usb_apply_boot_quirk(struct usb_device *dev,
 		return snd_usb_fasttrackpro_boot_quirk(dev);
 	case USB_ID(0x047f, 0xc010): /* Plantronics Gamecom 780 */
 		return snd_usb_gamecon780_boot_quirk(dev);
+	case USB_ID(0x2466, 0x8010): /* Fractal Audio Axe-Fx 3 */
+		return snd_usb_axefx3_boot_quirk(dev);
 	}
 
 	return 0;
