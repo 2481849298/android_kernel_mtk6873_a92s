@@ -43,6 +43,7 @@ export PATH="/root/clang-r383902/bin:/root/gcc/aarch64/bin:/root/gcc/arm/bin:$PA
 args="-j8 \
 ARCH=arm64 \
 SUBARCH=arm64 \
+LD=ld.lld
 O=out \
 CROSS_COMPILE=aarch64-linux-android- \
 CROSS_COMPILE_ARM32=arm-linux-androideabi- \
