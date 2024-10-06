@@ -49,13 +49,13 @@ endif
 
     # for gen4m options
     export CONFIG_MTK_COMBO_WIFI_HIF=axi
-    export WLAN_CHIP_ID=6833
-    export MTK_COMBO_CHIP=CONNAC
+    export WLAN_CHIP_ID=6873
+    export MTK_COMBO_CHIP=SOC2_2X2
     export MTK_ANDROID_WMT=y
     export MTK_ANDROID_EMI=y
     export MTK_WLAN_SERVICE=y
     export CONNAC_VER=1_0
-    export WIFI_IP_SET=1
+    export WIFI_IP_SET=3
 
     # Remove debugging
     export TARGET_BUILD_VARIANT=user
