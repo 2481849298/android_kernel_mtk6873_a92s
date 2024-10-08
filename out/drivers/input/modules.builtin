@@ -1,9 +1,0 @@
-kernel/drivers/input/input-core.ko
-kernel/drivers/input/input-leds.ko
-kernel/drivers/input/evdev.ko
-kernel/drivers/input/joystick/xpad.ko
-kernel/drivers/input/keyboard/mediatek/kpd.ko
-kernel/drivers/input/keyboard/mediatek/mt6873/hal_kpd.ko
-kernel/drivers/input/misc/uinput.ko
-kernel/drivers/input/oplus_secure_drivers/oplus_secure_common/oplus_secure_common.ko
-kernel/drivers/input/touchscreen/of_touchscreen.ko

@@ -1,3 +1,0 @@
-kernel/net/vmw_vsock/vsock.ko
-kernel/net/vmw_vsock/vmw_vsock_virtio_transport.ko
-kernel/net/vmw_vsock/vmw_vsock_virtio_transport_common.ko
