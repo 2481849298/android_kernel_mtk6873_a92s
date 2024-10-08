@@ -1,0 +1,2 @@
+kernel/drivers/mailbox/mtk-cmdq-mailbox.ko
+kernel/drivers/mailbox/mtk-rpmsg-mailbox.ko

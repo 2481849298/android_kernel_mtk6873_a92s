@@ -1,0 +1,7 @@
+kernel/drivers/gpu/drm/drm_kms_helper.ko
+kernel/drivers/gpu/drm/drm.ko
+kernel/drivers/gpu/drm/mediatek/mediatek-drm.ko
+kernel/drivers/gpu/drm/panel/panel-tianma-nt36672c-cphy-vdo.ko
+kernel/drivers/gpu/drm/panel/panel-jdi-nt36672c-cphy-vdo.ko
+kernel/drivers/gpu/drm/panel/panel-jdi-hx83112f-cphy-vdo.ko
+kernel/drivers/gpu/drm/panel/panel-tianma-120-nt36672c-cphy-vdo.ko

@@ -40,8 +40,7 @@ export SUBARCH=arm64
 
 export PATH="/root/clang-r383902/bin:/root/gcc/aarch64/bin:/root/gcc/arm/bin:$PATH"
 
-args="-j8 \
-ARCH=arm64 \
+args="ARCH=arm64 \
 SUBARCH=arm64 \
 LD=ld.lld
 O=out \
@@ -51,8 +50,8 @@ CLANG_TRIPLE=aarch64-linux-gnu- "
 
 
 #内核将在 out/arch/arm64/boot下生成通常为Image,Image.gz.dtb,Image.gz等
-make CC="ccache clang" ${args} ${KD}
-make CC="ccache clang" ${args} 2>&1 | tee kernel.log
+make CC="ccache clang" ${args} ${KD} -j8
+make CC="ccache clang" ${args}  -j8 2>&1 | tee kernel.log
 
 
 echo ccache缓存如下
