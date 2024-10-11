@@ -1,67 +1,88 @@
-#! /bin/bash
-starttime=`date +'%Y-%m-%d %H:%M:%S'`
-#一般只修改KD,KERNEL值就可以了，其他几乎可不动。
-#export KD=xxxxx_defconfig
-#export KD=vendor/xxxxx_defconfig
-export KERNEL=Image
-export KD=mt6833_defconfig
+#!/bin/bash
 
-echo "           "
-echo "           "
-echo "你设置的内核配置文件为$KD,并打印在kernel-defconfig.log"
-echo "           "
-echo "           "
+# ������ɫ����
+RED="\033[1;31m"
+GREEN="\033[1;32m"
+YELLOW="\033[1;33m"
+WHITE="\033[1;37m"
+CYAN="\033[1;36m"
+NC="\033[0m"
 
 
+# �ں˹���Ŀ¼
+KERNEL_DIR=$(pwd)
+# �ں� defconfig �ļ�
+# ������ʱĿ¼��������Ⱦ��Ŀ¼
+OUT=out
 
-#一些解释，必看。
-#可在终端中直接指定KD，export KD=xxxxx_defconfig 或export KD=vendor/xxxxx_defconfig然后直接运行此脚本即可编译内核，而不必每次都来修改KD值，特别是想要用多个编译器编译时，省掉些麻烦。当然来直接修改也可以。
-
-#手机的内核配置文件(内核配置文件KERNEL_DEFCONFIG简称KD），一般在内核源码目录下的arch/arm64/configs或arch/arm64/configs/vendor下，一般为机型代号，高通骁龙处理器代号啥的，比如mi5 的为gemini_defconfig,一加8系列为kona_pref_defconfig,按实际情况修改
-#KD可取的值(内核配置文件KERNEL_DEFCONFIG简称KD） xxxxx_defconfig, vendor/xxxxx_defconfig
-
-#export KD=xxxxx_defconfig
-#export KD=vendor/xxxxx_defconfig
+#��������
 
 
-#内核产品的格式类型通常为Image或 Image.gz-dtb，Image.gz等，默认Image
-#export KERNEL=Image
+export CLANG_PATH=/root/clang-r383902
+export GCC64_PATH=/gcc/aarch64
+export GCC32_PATH=/root/gcc/arm
+# archƽ̨
+ARCH=arm64
+SUBARCH=arm64
 
+# ����ʱ�߳�ָ����Ĭ�ϵ��̣߳�����ͨ������ָ��������8�̱߳���
+TH_COUNT=8
 
-echo "           "
-echo "设置编译环境中....."
-echo "           "
-#env 设置编译环境
-#clang版本11 , binutils版本2.27
-export ARCH=arm64
-export SUBARCH=arm64
+# �������
+DEF_ARGS="O=${OUT} \
+ARCH=${ARCH} \
+CROSS_COMPILE=${GCC64_PATH}/bin/aarch64-linux-android- \
+CLANG_TRIPLE=${GCC64_PATH}/bin/aarch64-linux-gnu- \
+CROSS_COMPILE_ARM32=${GCC32_PATH}/bin/arm-linux-androideabi- \
+AR=${CLANG_PATH}/bin/llvm-ar \
+NM=${CLANG_PATH}/bin/llvm-nm \
+LD=${CLANG_PATH}/bin/ld.lld \
+HOSTCC=${CLANG_PATH}/bin/clang \
+HOSTCXX=${CLANG_PATH}/bin/clang++ \
+OBJCOPY=${CLANG_PATH}/bin/llvm-objcopy \
+OBJDUMP=${CLANG_PATH}/bin/llvm-objdump \
+READELF=${CLANG_PATH}/bin/llvm-readelf \
+OBJSIZE=${CLANG_PATH}/bin/llvm-size \
+STRIP=${CLANG_PATH}/bin/llvm-strip \
+LLVM_IAS=1 \
+LLVM=1"
 
-#export PATH="/root/Toolchain/clang-r383902b/bin:/root/Toolchain/google_gcc-4.9/bin:$PATH"
+BUILD_ARGS="-j${TH_COUNT} ${DEF_ARGS}"
 
-export PATH="/root/clang-r383902/bin:/root/gcc/aarch64/bin:/root/gcc/arm/bin:$PATH"
+# ���뺯��
+compile_kernel() {
 
-args="ARCH=arm64 \
-SUBARCH=arm64 \
-LD=ld.lld
-O=out \
-CROSS_COMPILE=aarch64-linux-android- \
-CROSS_COMPILE_ARM32=arm-linux-androideabi- \
-CLANG_TRIPLE=aarch64-linux-gnu- "
+    echo -e "${CYAN}=============== Make defconfig  ===============${NC}"
+     make CC="ccache clang" ${BUILD_ARGS} mtk6873_defconfig
+    
+    # ��� make �����Ƿ�ִ�гɹ�
+    if [[ $? -ne 0 ]]; then
+        echo -e "${RED}>>> build kernel error, exiting!${NC}"
+        exit 1
+    fi
+    
+        echo -e "${CYAN}=============== Make Kernel  ===============${NC}"
+    start_time=$(date +%s)
+    make CC="ccache clang" ${BUILD_ARGS} #modules_prepare
+    
+    # ��� make �����Ƿ�ִ�гɹ�
+    if [[ $? -ne 0 ]]; then
+        echo -e "${RED}>>> build kernel error, exiting!${NC}"
+        exit 1
+    fi
+    
+    end_time=$(date +%s)
+    total_time=$((end_time - start_time))
+    echo -e "${GREEN}>>> build Kernel successful${NC}"
+    echo -e "${GREEN}>>> build time: $(($total_time / 60)) minutes and $(($total_time % 60)) seconds${NC}"
+}
 
+# ������
+main() {
+    compile_kernel
+}
 
-#内核将在 out/arch/arm64/boot下生成通常为Image,Image.gz.dtb,Image.gz等
-make CC="ccache clang" ${args} ${KD} -j8
-make CC="ccache clang" ${args}  -j8 2>&1 | tee kernel.log
+# ����������
+main
 
-
-echo ccache缓存如下
-ccache -s
-echo "           "
-echo "--------------------------------"
-endtime=`date +'%Y-%m-%d %H:%M:%S'`
-start_seconds=$(date --date=" $starttime" +%s);
-end_seconds=$(date --date="$endtime" +%s);
-echo Start: $starttime.
-echo End: $endtime.
-echo "Build Time: "$((end_seconds-start_seconds))"s."
-echo "--------------------------------"
+exit 0
