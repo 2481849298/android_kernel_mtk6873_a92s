@@ -194,7 +194,7 @@ config HAVE_KRETPROBES
 	bool
 
 config HAVE_OPTPROBES
-	bool
+	def_bool y
 
 config HAVE_KPROBES_ON_FTRACE
 	bool

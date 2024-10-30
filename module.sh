@@ -55,7 +55,7 @@ compile_kernel() {
 
     echo -e "${CYAN}=============== Make module  ===============${NC}"
     start_time=$(date +%s)
-     make ${BUILD_ARGS} mtk6873_defconfig && make ${BUILD_ARGS} prepare && make ${BUILD_ARGS} scripts
+     make ${BUILD_ARGS} mtk6873_defconfig && make ${BUILD_ARGS} modules_prepare
     
     # 检查 make 命令是否执行成功
     if [[ $? -ne 0 ]]; then
