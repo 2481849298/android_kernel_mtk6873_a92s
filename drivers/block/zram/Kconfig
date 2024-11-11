@@ -4,7 +4,7 @@ config ZRAM
 	depends on BLOCK && SYSFS && ZSMALLOC && CRYPTO
 	select CRYPTO_LZO
 	select CRYPTO_LZ4
-	default n
+	default y
 	help
 	  Creates virtual block devices called /dev/zramX (X = 0, 1, ...).
 	  Pages written to these disks are compressed and stored in memory
@@ -86,3 +86,24 @@ config HYBRIDSWAP_ASYNC_COMPRESS
 	  for compress anon pages.
 	  If unsure, say N here.
 	  This feature will reduce the kswapd cpu load.
+config ZRAM_ENTROPY
+	bool "Use entropy optimization for zram"
+	depends on ZRAM
+	help
+	  With this feature, entropy will be calculated for each page.
+	  Pages above ZRAM_ENTROPY_THRESHOLD entropy will be
+	  stored uncompressed. Use this feature if you need a performance
+	  boost and a small loss in compression.
+	  
+config ZRAM_ENTROPY_THRESHOLD
+	int
+	depends on ZRAM && ZRAM_ENTROPY
+	default 100000
+	help
+	  Pages with entropy above ZRAM_ENTROPY_THRESHOLD will be stored
+	  uncompressed. The default value was chosen as a 
+
+config ZRAM_SIZE_OVERRIDE
+	int "zram size to set from kernel"
+	range 1 8
+	default 2
