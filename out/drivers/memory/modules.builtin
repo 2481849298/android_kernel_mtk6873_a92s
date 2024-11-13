@@ -1,0 +1,5 @@
+kernel/drivers/memory/mediatek/dramc.ko
+kernel/drivers/memory/mediatek/dramc_bin.ko
+kernel/drivers/memory/mediatek/emicen.ko
+kernel/drivers/memory/mediatek/emimpu.ko
+kernel/drivers/memory/mediatek/emiisu.ko
