@@ -36,7 +36,7 @@ CLANG_TRIPLE=${GCC64_PATH}/bin/aarch64-linux-gnu- \
 CROSS_COMPILE_ARM32=${GCC32_PATH}/bin/arm-linux-androideabi- \
 CC=${CLANG_PATH}/bin/clang \
 LD=${CLANG_PATH}/bin/ld.lld
-
+"
 BUILD_ARGS="-j${TH_COUNT} ${DEF_ARGS}"
 
 # ±àÒëº¯Êý

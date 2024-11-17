@@ -15,7 +15,7 @@ endif
 
 MET_ROOT_DIR := $(src)
 MET_COMMON_DIR := $(wildcard $(MET_ROOT_DIR)/common)
-MET_PLF_DIR := $(wildcard $(MET_ROOT_DIR)/$(MTK_PLATFORM))
+MET_PLF_DIR := $(wildcard $(MET_ROOT_DIR)/mt6873)
 MET_BUILD_DEFAULT := n
 
 ifeq ($(CONFIG_MODULES),y)
