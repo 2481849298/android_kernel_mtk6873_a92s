@@ -2327,7 +2327,8 @@ proc_map_files_readdir(struct file *file, struct dir_context *ctx)
 			info.len = snprintf(info.name,
 					sizeof(info.name), "%lx-%lx",
 					vma->vm_start, vma->vm_end);
-			if (flex_array_put(fa, i++, &info, GFP_KERNEL))
+					
+		if (flex_array_put(fa, i++, &info, GFP_KERNEL))
 				BUG();
 		}
 	}
