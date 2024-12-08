@@ -89,7 +89,6 @@ obj-$(CONFIG_MTK_IRTX_PWM_SUPPORT)	    += irtx/
 ifeq ($(CONFIG_MTK_SENSORHUB), y)
 obj-$(CONFIG_MTK_TINYSYS_SCP_SUPPORT) += scp/
 endif
-obj-y += udc/
 ifeq ($(subst ",,$(CONFIG_MTK_SENSOR_ARCHITECTURE)),1.0)
 obj-y += sensors-1.0/
 else

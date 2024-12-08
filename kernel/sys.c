@@ -4,7 +4,6 @@
  *
  *  Copyright (C) 1991, 1992  Linus Torvalds
  */
-
 #include <linux/export.h>
 #include <linux/mm.h>
 #include <linux/utsname.h>
@@ -192,6 +191,7 @@ static int set_one_prio(struct task_struct *p, int niceval, int error)
 out:
 	return error;
 }
+
 
 SYSCALL_DEFINE3(setpriority, int, which, int, who, int, niceval)
 {

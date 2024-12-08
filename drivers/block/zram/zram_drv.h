@@ -138,12 +138,12 @@ struct zram {
 #ifdef CONFIG_ZRAM_MEMORY_TRACKING
 	struct dentry *debugfs_dir;
 #endif
-#if (defined CONFIG_ZRAM_WRITEBACK) || (defined CONFIG_HYBRIDSWAP_CORE)
+/*#if (defined CONFIG_ZRAM_WRITEBACK) || (defined CONFIG_HYBRIDSWAP_CORE)
 	struct block_device *bdev;
 	unsigned int old_block_size;
 	unsigned long nr_pages;
 	unsigned long increase_nr_pages;
-#endif
+#endif*/
 #ifdef CONFIG_HYBRIDSWAP_CORE
 	struct hybridswap_area *area;
 #endif

@@ -18,9 +18,8 @@ OUT=out
 #环境配置
 
 
-export CLANG_PATH=/root/clang-r383902
-export GCC64_PATH=/root/gcc/aarch64
-export GCC32_PATH=/root/gcc/arm
+
+export PATH="/root/clang-r383902/bin:/root/gcc/aarch64/bin:/root/gcc/arm/bin:$PATH"
 # arch平台
 ARCH=arm64
 SUBARCH=arm64
@@ -31,10 +30,11 @@ TH_COUNT=8
 # 编译参数
 DEF_ARGS="O=${OUT} \
 ARCH=${ARCH} \
-CROSS_COMPILE=${GCC64_PATH}/bin/aarch64-linux-android- \
-CLANG_TRIPLE=${GCC64_PATH}/bin/aarch64-linux-gnu- \
-CROSS_COMPILE_ARM32=${GCC32_PATH}/bin/arm-linux-androideabi- \
-LD=${CLANG_PATH}/bin/ld.lld
+CROSS_COMPILE=aarch64-linux-android- \
+CLANG_TRIPLE=aarch64-linux-gnu- \
+LTO=thin \
+CROSS_COMPILE_ARM32=arm-linux-androideabi- \
+LD=ld.lld"
 
 BUILD_ARGS="-j${TH_COUNT} ${DEF_ARGS}"
 
@@ -42,7 +42,7 @@ BUILD_ARGS="-j${TH_COUNT} ${DEF_ARGS}"
 compile_kernel() {
 
     echo -e "${CYAN}=============== Make defconfig  ===============${NC}"
-     make CC="ccache clang" ${BUILD_ARGS} mtk6873_defconfig
+    make CC="ccache clang" ${BUILD_ARGS} mtk6873_defconfig
     
     # 检查 make 命令是否执行成功
     if [[ $? -ne 0 ]]; then
@@ -52,7 +52,7 @@ compile_kernel() {
     
         echo -e "${CYAN}=============== Make Kernel  ===============${NC}"
     start_time=$(date +%s)
-    make CC="ccache clang" ${BUILD_ARGS} #modules_prepare
+    make CC="ccache clang" ${BUILD_ARGS} 2>&1 | tee kernel.log
     
     # 检查 make 命令是否执行成功
     if [[ $? -ne 0 ]]; then
