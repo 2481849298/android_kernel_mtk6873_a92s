@@ -4,6 +4,7 @@
  *
  *  Copyright (C) 1991, 1992  Linus Torvalds
  */
+
 #include <linux/export.h>
 #include <linux/mm.h>
 #include <linux/utsname.h>
@@ -191,7 +192,6 @@ static int set_one_prio(struct task_struct *p, int niceval, int error)
 out:
 	return error;
 }
-
 
 SYSCALL_DEFINE3(setpriority, int, which, int, who, int, niceval)
 {
@@ -1185,12 +1185,23 @@ static int override_release(char __user *release, size_t len)
 	return ret;
 }
 
+#ifdef CONFIG_KSU_SUSFS_SPOOF_UNAME
+extern int susfs_spoof_uname(struct new_utsname* tmp);
+#endif
+
 SYSCALL_DEFINE1(newuname, struct new_utsname __user *, name)
 {
 	struct new_utsname tmp;
 
 	down_read(&uts_sem);
+#ifdef CONFIG_KSU_SUSFS_SPOOF_UNAME
+	if (likely(!susfs_spoof_uname(&tmp)))
+		goto bypass_orig_flow;
+#endif
 	memcpy(&tmp, utsname(), sizeof(tmp));
+#ifdef CONFIG_KSU_SUSFS_SPOOF_UNAME
+bypass_orig_flow:
+#endif
 	up_read(&uts_sem);
 	if (copy_to_user(name, &tmp, sizeof(tmp)))
 		return -EFAULT;

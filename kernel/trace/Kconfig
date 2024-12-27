@@ -20,7 +20,7 @@ config HAVE_FUNCTION_TRACER
 	  See Documentation/trace/ftrace-design.txt
 
 config HAVE_FUNCTION_GRAPH_TRACER
-	bool
+	default y
 	help
 	  See Documentation/trace/ftrace-design.txt
 
@@ -149,9 +149,6 @@ config FUNCTION_TRACER
 
 config FUNCTION_GRAPH_TRACER
 	bool "Kernel Function Graph Tracer"
-	depends on HAVE_FUNCTION_GRAPH_TRACER
-	depends on FUNCTION_TRACER
-	depends on !X86_32 || !CC_OPTIMIZE_FOR_SIZE
 	default y
 	help
 	  Enable the kernel to trace a function at both its return

@@ -1349,6 +1349,11 @@ struct task_struct {
 	unsigned int			kasan_depth;
 #endif
 
+
+#ifdef CONFIG_KSU_SUSFS
+	u64 android_kabi_reserved8;
+#endif
+
 #ifdef CONFIG_FUNCTION_GRAPH_TRACER
 	/* Index of current stored address in ret_stack: */
 	int				curr_ret_stack;

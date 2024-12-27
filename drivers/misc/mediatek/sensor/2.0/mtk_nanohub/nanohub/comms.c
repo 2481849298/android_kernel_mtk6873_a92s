@@ -44,7 +44,7 @@ static u32 crc32_word(u32 crc, u32 data, int cnt)
 	return crc;
 }
 
-u32 crc32(const u8 *buffer, int length, u32 crc)
+u32 crc33(const u8 *buffer, int length, u32 crc)
 {
 	u32 *data = (u32 *)buffer;
 	u32 word;
@@ -110,7 +110,7 @@ static int packet_create(struct nanohub_packet *packet, u32 seq,
 			}
 		}
 		crc.crc =
-		    crc32((u8 *)packet,
+		    crc33((u8 *)packet,
 			  sizeof(struct nanohub_packet) + len, ~0);
 		memcpy(&packet->data[len], &crc.crc,
 		       sizeof(struct nanohub_packet_crc));
@@ -127,7 +127,7 @@ static int packet_verify(struct nanohub_packet *packet)
 	int cmp;
 
 	crc.crc =
-	    crc32((u8 *)packet,
+	    crc33((u8 *)packet,
 		  sizeof(struct nanohub_packet) + packet->len, ~0);
 
 	cmp =
@@ -432,7 +432,7 @@ static int nanohub_comms_download(struct nanohub_data *data,
 
 	header.type = type;
 	header.size = cpu_to_le32(length);
-	header.crc = cpu_to_le32(~crc32(image, length, ~0));
+	header.crc = cpu_to_le32(~crc33(image, length, ~0));
 
 	if (request_wakeup(data))
 		return -ERESTARTSYS;

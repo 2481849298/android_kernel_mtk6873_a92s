@@ -143,8 +143,9 @@ out:
 }
 
 
-
-
+/* And here is where the userspace process can look up the cookie value
+ * to retrieve the path.
+ */
 
 static int dcookie_init(void)
 {
