@@ -20,7 +20,7 @@ config HAVE_FUNCTION_TRACER
 	  See Documentation/trace/ftrace-design.txt
 
 config HAVE_FUNCTION_GRAPH_TRACER
-	default y
+	bool
 	help
 	  See Documentation/trace/ftrace-design.txt
 
@@ -148,6 +148,9 @@ config FUNCTION_TRACER
 	  small and not measurable even in micro-benchmarks.
 
 config FUNCTION_GRAPH_TRACER
+	depends on HAVE_FUNCTION_GRAPH_TRACER
+	depends on FUNCTION_TRACER
+	depends on !X86_32 || !CC_OPTIMIZE_FOR_SIZE
 	bool "Kernel Function Graph Tracer"
 	default y
 	help
