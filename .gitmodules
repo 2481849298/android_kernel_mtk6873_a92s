@@ -1,0 +1,4 @@
+[submodule "KernelSU"]
+	path = KernelSU
+	url = https://github.com/sidex15/KernelSU.git
+	branch = non-gki-n3x7g3n
