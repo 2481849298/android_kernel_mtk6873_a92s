@@ -41,7 +41,6 @@ obj-$(CONFIG_MTK_SYSTRACKER_V2)   += systracker/
 
 obj-$(CONFIG_MTK_IRRX) += irrx/
 
-obj-y += udc/
 
 obj-$(CONFIG_NFC_CHIP_SUPPORT) += nfc/
 
