@@ -10,7 +10,7 @@
 #
 # Copyright (C) 1995-2001 by Russell King
 
-LDFLAGS_vmlinux	:=--no-undefined -X -z norelro
+LDFLAGS_vmlinux	:=--no-undefined -X
 CPPFLAGS_vmlinux.lds = -DTEXT_OFFSET=$(TEXT_OFFSET)
 GZFLAGS		:=-9
 
@@ -18,16 +18,8 @@ ifeq ($(CONFIG_RELOCATABLE), y)
 # Pass --no-apply-dynamic-relocs to restore pre-binutils-2.27 behaviour
 # for relative relocs, since this leads to better Image compression
 # with the relocation offsets always being zero.
-LDFLAGS_vmlinux		+= -Bsymbolic -z notext -z norelro \
+LDFLAGS_vmlinux		+= -shared -Bsymbolic -z notext -z norelro \
 			$(call ld-option, --no-apply-dynamic-relocs)
-
-# Pass -shared for bfd and -pie for lld to minimize Image size on both
-ifeq ($(ld-name),bfd)
-LDFLAGS_vmlinux		+= -shared
-endif
-ifeq ($(ld-name),lld)
-LDFLAGS_vmlinux		+= -pie
-endif
 endif
 
 ifeq ($(CONFIG_ARM64_ERRATUM_843419),y)
@@ -66,11 +58,18 @@ $(warning Detected assembler with broken .inst; disassembly will be unreliable)
   endif
 endif
 
-KBUILD_CFLAGS	+= -mgeneral-regs-only $(lseinstr) $(brokengasinst) $(vdso32)
+ifeq ($(cc-name),clang)
+# This is a workaround for https://bugs.llvm.org/show_bug.cgi?id=30792.
+# TODO: revert when this is fixed in LLVM.
+KBUILD_CFLAGS	+= -mno-implicit-float
+else
+KBUILD_CFLAGS	+= -mgeneral-regs-only
+endif
+KBUILD_CFLAGS	+= $(lseinstr) $(brokengasinst)
 KBUILD_CFLAGS	+= -fno-asynchronous-unwind-tables
 KBUILD_CFLAGS	+= $(call cc-option, -mpc-relative-literal-loads)
 KBUILD_CFLAGS	+= -fno-pic
-KBUILD_AFLAGS	+= $(lseinstr) $(brokengasinst) $(vdso32)
+KBUILD_AFLAGS	+= $(lseinstr) $(brokengasinst)
 
 KBUILD_CFLAGS	+= $(call cc-option,-mabi=lp64)
 KBUILD_AFLAGS	+= $(call cc-option,-mabi=lp64)
@@ -78,8 +77,6 @@ KBUILD_AFLAGS	+= $(call cc-option,-mabi=lp64)
 ifeq ($(CONFIG_SHADOW_CALL_STACK), y)
 KBUILD_CFLAGS	+= -ffixed-x18
 endif
-
-KBUILD_CFLAGS	+= $(call cc-ifversion, -ge, 0500, -DCONFIG_ARCH_SUPPORTS_INT128)
 
 ifeq ($(CONFIG_CPU_BIG_ENDIAN), y)
 KBUILD_CPPFLAGS	+= -mbig-endian
@@ -175,10 +172,9 @@ KBUILD_DTBS	:= dtbs
 
 all:	Image.gz $(KBUILD_DTBS) $(subst $\",,$(CONFIG_BUILD_ARM64_APPENDED_KERNEL_IMAGE_NAME))
 
-MTK_PLATFORM := $(subst ",,$(CONFIG_MTK_PLATFORM))
-MTK_PROJECT := $(subst ",,$(CONFIG_ARCH_MTK_PROJECT))
-export MTK_PLATFORM MTK_PROJECT MTK_TARGET_PROJECT
--include $(srctree)/scripts/drvgen/drvgen.mk
+MTK_PLATFORM := $(CONFIG_MTK_PLATFORM:"%"=%)
+MTK_PROJECT := $(CONFIG_ARCH_MTK_PROJECT:"%"=%)
+export MTK_PLATFORM MTK_PROJECT
 
 Image: vmlinux
 	$(Q)$(MAKE) $(build)=$(boot) $(boot)/$@
@@ -189,18 +185,12 @@ Image.%: Image
 zinstall install:
 	$(Q)$(MAKE) $(build)=$(boot) $@
 
-%.dtb: scripts $(DRVGEN_FILE_LIST)
-	$(Q)$(MAKE) $(build)=$(boot)/dts $(boot)/dts/$@
-
-%.dtbo: scripts
-	$(Q)$(MAKE) $(build)=$(boot)/dts $(boot)/dts/$@
-
-%.dtbo: scripts
+%.dtb: scripts
 	$(Q)$(MAKE) $(build)=$(boot)/dts $(boot)/dts/$@
 
 PHONY += dtbs dtbs_install
 
-dtbs: prepare scripts dtbo_check
+dtbs: prepare scripts
 	$(Q)$(MAKE) $(build)=$(boot)/dts
 
 dtbs_install:
@@ -215,7 +205,6 @@ Image.gz-dtb: vmlinux scripts dtbs Image.gz
 PHONY += vdso_install
 vdso_install:
 	$(Q)$(MAKE) $(build)=arch/arm64/kernel/vdso $@
-	$(Q)$(MAKE) $(build)=arch/arm64/kernel/vdso32 $@
 
 # We use MRPROPER_FILES and CLEAN_FILES now
 archclean:
@@ -232,8 +221,6 @@ ifeq ($(KBUILD_EXTMOD),)
 prepare: vdso_prepare
 vdso_prepare: prepare0
 	$(Q)$(MAKE) $(build)=arch/arm64/kernel/vdso include/generated/vdso-offsets.h
-	$(if $(CONFIG_VDSO32),$(Q)$(MAKE) $(build)=arch/arm64/kernel/vdso32 \
-					  include/generated/vdso32-offsets.h)
 endif
 
 define archhelp
