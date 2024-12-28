@@ -36,9 +36,9 @@ jobs:
     - name: 下载 Zyc-clang
       run: |
         cd $GITHUB_WORKSPACE/kernel_workspace
-        mkdir zyc-clang
-        wget -O clang20.tar.gz https://github.com/ZyCromerZ/Clang/releases/download/20.0.0git-20241228-release/Clang-20.0.0git-20241228.tar.gz
-        tar -C zyc-clang/ -xf clang20.tar.gz
+        mkdir clang
+        wget https://github.com/ZyCromerZ/Clang/releases/download/20.0.0git-20241227-release/Clang-20.0.0git-20241227.tar.gz
+        tar -C clang/ -zxvf Clang-20.0.0git-20241227.tar.gz
 
     - name: 下载内核源码
       run: |
@@ -58,9 +58,9 @@ jobs:
       run: |
         cd $GITHUB_WORKSPACE/kernel_workspace/android-kernel
         git submodule update --init --recursive
-        export PATH=$GITHUB_WORKSPACE/kernel_workspace/zyc-clang/bin:$PATH
+        export PATH=$GITHUB_WORKSPACE/kernel_workspace/clang/bin:$PATH
         make -s -j$(nproc --all) O=out ARCH=arm64 mtk6873_defconfig
-        make -j$(nproc --all) O=out ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- LD=ld.lld
+        make -j$(nproc --all) O=out ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- LD=ld.lld CC=clang
                 
 
     - name: 制作Anykernel3卡刷包
