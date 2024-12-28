@@ -60,7 +60,7 @@ jobs:
         git submodule update --init --recursive
         export PATH=$GITHUB_WORKSPACE/kernel_workspace/zyc-clang/bin:$PATH
         make -s -j$(nproc --all) O=out ARCH=arm64 mtk6873_defconfig
-        make -j$(nproc --all) CC="ccache clang" O=out ARCH=arm64 CLANG_TRIPLE=aarch64-linux-gnu- CROSS_COMPILE=aarch64-linux-gnu- CROSS_COMPILE_ARM32=arm-linux-gnueabi-
+        make -j$(nproc --all) CC="clang" O=out ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- LD=ld.lld
                 
 
     - name: 制作Anykernel3卡刷包
