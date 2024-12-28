@@ -416,7 +416,7 @@ static s32 *read_spm_pwr_status_array(void)
 }
 
 static bool clk_hw_pwr_sta_is_on(struct clk_hw *c_hw,
-			u32 spm_pwr_status, struct provider_clk *pvdck)
+			u32 *spm_pwr_status, struct provider_clk *pvdck)
 {
 	if (!pvdck || !pvdck->pwr_mask)
 		return 0;
@@ -1943,7 +1943,7 @@ static struct save_point save_point_1;
 static struct save_point save_point_2;
 static struct save_point save_point_3;
 
-static void save_pwr_status(u32 spm_pwr_status)
+static void save_pwr_status(u32 *spm_pwr_status)
 {
 	spm_pwr_status = read_spm_pwr_status();
 }
