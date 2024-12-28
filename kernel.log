@@ -427,164 +427,178 @@ OplusKernelEnvConfig.mk:111: myfeature is OPLUS_FEATURE_CAMERA_COMMON
 OplusKernelEnvConfig.mk:111: myfeature is OPLUS_FEATURE_WIFI_OPLUSWFD
   CHK     include/config/kernel.release
   GEN     ./Makefile
-  UPD     include/config/kernel.release
   CHK     include/generated/uapi/linux/version.h
-  UPD     include/generated/uapi/linux/version.h
   CHK     include/generated/utsrelease.h
-  WRAP    arch/arm64/include/generated/uapi/asm/errno.h
-  UPD     include/generated/utsrelease.h
-  WRAP    arch/arm64/include/generated/uapi/asm/ioctl.h
-  WRAP    arch/arm64/include/generated/uapi/asm/ioctls.h
-  WRAP    arch/arm64/include/generated/uapi/asm/ipcbuf.h
-  WRAP    arch/arm64/include/generated/uapi/asm/kvm_para.h
-  WRAP    arch/arm64/include/generated/uapi/asm/mman.h
-  WRAP    arch/arm64/include/generated/uapi/asm/msgbuf.h
-  WRAP    arch/arm64/include/generated/uapi/asm/poll.h
-  WRAP    arch/arm64/include/generated/uapi/asm/resource.h
-  WRAP    arch/arm64/include/generated/uapi/asm/sembuf.h
-  WRAP    arch/arm64/include/generated/uapi/asm/shmbuf.h
-  WRAP    arch/arm64/include/generated/uapi/asm/socket.h
-  WRAP    arch/arm64/include/generated/uapi/asm/sockios.h
-  WRAP    arch/arm64/include/generated/uapi/asm/swab.h
-  WRAP    arch/arm64/include/generated/uapi/asm/termbits.h
-  WRAP    arch/arm64/include/generated/uapi/asm/termios.h
-  WRAP    arch/arm64/include/generated/uapi/asm/types.h
-  HOSTCC  scripts/basic/fixdep
-  HOSTCC  scripts/basic/bin2c
+../drivers/misc/mediatek/gud/Makefile.include:2: "CONFIG_MTK_PLATFORM: "mt6873""
+../drivers/misc/mediatek/gud/Makefile.include:3: "CONFIG_TRUSTONIC_TEE_VERSION: "500""
   Using .. as source for kernel
-  WRAP    arch/arm64/include/generated/asm/bugs.h
-  WRAP    arch/arm64/include/generated/asm/clkdev.h
-  WRAP    arch/arm64/include/generated/asm/delay.h
-  WRAP    arch/arm64/include/generated/asm/div64.h
-  WRAP    arch/arm64/include/generated/asm/dma.h
-  WRAP    arch/arm64/include/generated/asm/dma-contiguous.h
-  WRAP    arch/arm64/include/generated/asm/early_ioremap.h
-  WRAP    arch/arm64/include/generated/asm/emergency-restart.h
-  WRAP    arch/arm64/include/generated/asm/hw_irq.h
-  WRAP    arch/arm64/include/generated/asm/irq_regs.h
-  WRAP    arch/arm64/include/generated/asm/kdebug.h
-  WRAP    arch/arm64/include/generated/asm/kmap_types.h
-  WRAP    arch/arm64/include/generated/asm/local.h
-  WRAP    arch/arm64/include/generated/asm/local64.h
-  WRAP    arch/arm64/include/generated/asm/mcs_spinlock.h
-  WRAP    arch/arm64/include/generated/asm/mm-arch-hooks.h
-  WRAP    arch/arm64/include/generated/asm/msi.h
-  WRAP    arch/arm64/include/generated/asm/preempt.h
-  WRAP    arch/arm64/include/generated/asm/rwsem.h
-  WRAP    arch/arm64/include/generated/asm/segment.h
-  WRAP    arch/arm64/include/generated/asm/serial.h
-  WRAP    arch/arm64/include/generated/asm/set_memory.h
-  WRAP    arch/arm64/include/generated/asm/sizes.h
-  WRAP    arch/arm64/include/generated/asm/switch_to.h
-  WRAP    arch/arm64/include/generated/asm/trace_clock.h
-  WRAP    arch/arm64/include/generated/asm/unaligned.h
-  WRAP    arch/arm64/include/generated/asm/user.h
-  WRAP    arch/arm64/include/generated/asm/vga.h
-  WRAP    arch/arm64/include/generated/asm/xor.h
-  HOSTCC  scripts/kallsyms
-  HOSTCC  scripts/pnmtologo
-  HOSTCC  scripts/sortextable
-  HOSTCC  scripts/asn1_compiler
-  HOSTCC  scripts/dtc/dtc.o
-  CC      scripts/mod/empty.o
-  HOSTCC  scripts/genksyms/genksyms.o
-  HOSTCC  scripts/selinux/genheaders/genheaders
-  HOSTCC  scripts/mod/mk_elfconfig
-  HOSTCC  scripts/dtc/flattree.o
-  CC      scripts/mod/devicetable-offsets.s
-  HOSTCC  scripts/extract-cert
-  MKELF   scripts/mod/elfconfig.h
+../drivers/misc/mediatek/gud/Makefile.include:2: "CONFIG_MTK_PLATFORM: "mt6873""
+../drivers/misc/mediatek/gud/Makefile.include:3: "CONFIG_TRUSTONIC_TEE_VERSION: "500""
+../drivers/misc/mediatek/gud/Makefile.include:2: "CONFIG_MTK_PLATFORM: "mt6873""
+../drivers/misc/mediatek/gud/Makefile.include:3: "CONFIG_TRUSTONIC_TEE_VERSION: "500""
   CHK     scripts/mod/devicetable-offsets.h
-  UPD     scripts/mod/devicetable-offsets.h
-  HOSTCC  scripts/mod/sumversion.o
-  HOSTCC  scripts/selinux/mdp/mdp
-  HOSTCC  scripts/dtc/fstree.o
-  HOSTCC  scripts/dtc/data.o
-  SHIPPED scripts/genksyms/parse.tab.c
-  SHIPPED scripts/genksyms/lex.lex.c
-  SHIPPED scripts/genksyms/parse.tab.h
-  HOSTCC  scripts/genksyms/parse.tab.o
-../scripts/extract-cert.c: In function ‘display_openssl_errors’:
-../scripts/extract-cert.c:46:9: warning: ‘ERR_get_error_line’ is deprecated: Since OpenSSL 3.0 [-Wdeprecated-declarations]
-   46 |         while ((e = ERR_get_error_line(&file, &line))) {
-      |         ^~~~~
-In file included from ../scripts/extract-cert.c:23:
-/usr/include/openssl/err.h:411:15: note: declared here
-  411 | unsigned long ERR_get_error_line(const char **file, int *line);
-      |               ^~~~~~~~~~~~~~~~~~
-../scripts/extract-cert.c: In function ‘drain_openssl_errors’:
-../scripts/extract-cert.c:59:9: warning: ‘ERR_get_error_line’ is deprecated: Since OpenSSL 3.0 [-Wdeprecated-declarations]
-   59 |         while (ERR_get_error_line(&file, &line)) {}
-      |         ^~~~~
-In file included from ../scripts/extract-cert.c:23:
-/usr/include/openssl/err.h:411:15: note: declared here
-  411 | unsigned long ERR_get_error_line(const char **file, int *line);
-      |               ^~~~~~~~~~~~~~~~~~
-../scripts/extract-cert.c: In function ‘main’:
-../scripts/extract-cert.c:124:17: warning: ‘ENGINE_load_builtin_engines’ is deprecated: Since OpenSSL 3.0 [-Wdeprecated-declarations]
-  124 |                 ENGINE_load_builtin_engines();
-      |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-In file included from ../scripts/extract-cert.c:24:
-/usr/include/openssl/engine.h:358:28: note: declared here
-  358 | OSSL_DEPRECATEDIN_3_0 void ENGINE_load_builtin_engines(void);
-      |                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-../scripts/extract-cert.c:126:17: warning: ‘ENGINE_by_id’ is deprecated: Since OpenSSL 3.0 [-Wdeprecated-declarations]
-  126 |                 e = ENGINE_by_id("pkcs11");
-      |                 ^
-In file included from ../scripts/extract-cert.c:24:
-/usr/include/openssl/engine.h:336:31: note: declared here
-  336 | OSSL_DEPRECATEDIN_3_0 ENGINE *ENGINE_by_id(const char *id);
-      |                               ^~~~~~~~~~~~
-../scripts/extract-cert.c:128:17: warning: ‘ENGINE_init’ is deprecated: Since OpenSSL 3.0 [-Wdeprecated-declarations]
-  128 |                 if (ENGINE_init(e))
-      |                 ^~
-In file included from ../scripts/extract-cert.c:24:
-/usr/include/openssl/engine.h:620:27: note: declared here
-  620 | OSSL_DEPRECATEDIN_3_0 int ENGINE_init(ENGINE *e);
-      |                           ^~~~~~~~~~~
-../scripts/extract-cert.c:133:25: warning: ‘ENGINE_ctrl_cmd_string’ is deprecated: Since OpenSSL 3.0 [-Wdeprecated-declarations]
-  133 |                         ERR(!ENGINE_ctrl_cmd_string(e, "PIN", key_pass, 0), "Set PKCS#11 PIN");
-      |                         ^~~
-In file included from ../scripts/extract-cert.c:24:
-/usr/include/openssl/engine.h:479:5: note: declared here
-  479 | int ENGINE_ctrl_cmd_string(ENGINE *e, const char *cmd_name, const char *arg,
-      |     ^~~~~~~~~~~~~~~~~~~~~~
-../scripts/extract-cert.c:134:17: warning: ‘ENGINE_ctrl_cmd’ is deprecated: Since OpenSSL 3.0 [-Wdeprecated-declarations]
-  134 |                 ENGINE_ctrl_cmd(e, "LOAD_CERT_CTRL", 0, &parms, NULL, 1);
-      |                 ^~~~~~~~~~~~~~~
-In file included from ../scripts/extract-cert.c:24:
-/usr/include/openssl/engine.h:450:27: note: declared here
-  450 | OSSL_DEPRECATEDIN_3_0 int ENGINE_ctrl_cmd(ENGINE *e, const char *cmd_name,
-      |                           ^~~~~~~~~~~~~~~
-  HOSTCC  scripts/dtc/livetree.o
-  HOSTCC  scripts/dtc/treesource.o
-  HOSTCC  scripts/dtc/srcpos.o
-  HOSTCC  scripts/mod/modpost.o
-  HOSTCC  scripts/genksyms/lex.lex.o
-  HOSTCC  scripts/dtc/checks.o
-  HOSTCC  scripts/dtc/util.o
-  SHIPPED scripts/dtc/dtc-lexer.lex.c
-  SHIPPED scripts/dtc/dtc-parser.tab.h
-  SHIPPED scripts/dtc/dtc-parser.tab.c
-  HOSTCC  scripts/dtc/dtc-lexer.lex.o
-  HOSTCC  scripts/dtc/dtc-parser.tab.o
-  HOSTCC  scripts/mod/file2alias.o
-  HOSTLD  scripts/dtc/dtc
-  HOSTLD  scripts/mod/modpost
-  HOSTLD  scripts/genksyms/genksyms
+-- KernelSU version: 12006
+-- KernelSU Manager signature size: 0x033b
+-- KernelSU Manager signature hash: c371061b19d8c7d7d6133c6a9bafe198fa944e50c1b31c9d8daa8d7f1fc2d2d6
+-- KernelSU n3x7g3n Manager signature size: 0x29c
+-- KernelSU n3x7g3n Manager signature hash: bfddf83a559355b053187177775c39c639d2d2695163baa77253746dbf18098d
+-- SUSFS_VERSION: v1.5.3
+../drivers/misc/mediatek/gud/Makefile.include:2: "CONFIG_MTK_PLATFORM: "mt6873""
+../drivers/misc/mediatek/gud/Makefile.include:3: "CONFIG_TRUSTONIC_TEE_VERSION: "500""
   CHK     include/generated/timeconst.h
-  CC      kernel/bounds.s
-  UPD     include/generated/timeconst.h
   CHK     include/generated/bounds.h
-  UPD     include/generated/bounds.h
-  CC      arch/arm64/kernel/asm-offsets.s
   CHK     include/generated/asm-offsets.h
-  UPD     include/generated/asm-offsets.h
   CALL    ../scripts/checksyscalls.sh
-  LDS     arch/arm64/kernel/vdso/vdso.lds
-  VDSOA   arch/arm64/kernel/vdso/gettimeofday.o
-  VDSOA   arch/arm64/kernel/vdso/note.o
-  VDSOA   arch/arm64/kernel/vdso/sigreturn.o
-  LD      arch/arm64/kernel/vdso/vdso.so.dbg
-  VDSOSYM include/generated/vdso-offsets.h
+  CHK     include/generated/compile.h
+lowmem_dbg mtk_ion use kernel 4.14
+..
+..
+FDVT: Drv use 5.1 folder
+..
+..
+..
+..
+..
+../drivers/misc/mediatek/ccu/src/Makefile:29: CCU_MAKE_FILE_CALLED
+*MTK_GPU_VERSION 2 = valhall
+*MTK_GPU_VERSION 3 = r32p1
+../drivers/misc/mediatek/gud/Makefile.include:2: "CONFIG_MTK_PLATFORM: "mt6873""
+../drivers/misc/mediatek/gud/Makefile.include:3: "CONFIG_TRUSTONIC_TEE_VERSION: "500""
+************  drivers/trusty/mtee-kree mk ************
+../drivers/misc/mediatek/gud/Makefile.include:2: "CONFIG_MTK_PLATFORM: "mt6873""
+../drivers/misc/mediatek/gud/Makefile.include:3: "CONFIG_TRUSTONIC_TEE_VERSION: "500""
+MTK_GPU_VERSION 1 = mali
+*MTK_GPU_VERSION 2 = valhall
+*MTK_GPU_VERSION 3 = r32p1
+mali MTK evironment, building r32p1 DDK
+mtk-Kbuild CONFIG_MALI_PLATFORM_THIRDPARTY := y
+mtk-Kbuild CONFIG_MALI_PLATFORM_THIRDPARTY_NAME := "mt6873"
+*GPU defined GPU BM QoS 2.0
+mali MTK evironment, building r32p1 DDK
+mtk-Kbuild CONFIG_MALI_PLATFORM_THIRDPARTY := y
+mtk-Kbuild CONFIG_MALI_PLATFORM_THIRDPARTY_NAME := "mt6873"
+*GPU defined GPU BM QoS 2.0
+  CHK     kernel/config_data.h
+mali MTK evironment, building r32p1 DDK
+mtk-Kbuild CONFIG_MALI_PLATFORM_THIRDPARTY := y
+mtk-Kbuild CONFIG_MALI_PLATFORM_THIRDPARTY_NAME := "mt6873"
+*GPU defined GPU BM QoS 2.0
+  CHK     kernel/kheaders_data.tar.xz
+../drivers/misc/mediatek/gud/Makefile.include:2: "CONFIG_MTK_PLATFORM: "mt6873""
+../drivers/misc/mediatek/gud/Makefile.include:3: "CONFIG_TRUSTONIC_TEE_VERSION: "500""
+imgsensor drv by platform ./camera_project/k6873v1_64/ov48b_mipi_raw/ ./camera_project/k6873v1_64/s5k3p9sp_mipi_raw/ ./camera_project/k6873v1_64/gc8054_mipi_raw/ ./camera_project/k6873v1_64/hi846_mipi_raw/ ./camera_project/k6873v1_64/gc02m0b_mipi_mono/ ./camera_project/k6873v1_64/gc02m0b_mipi_mono1/ ./camera_project/k6873v1_64/gc02m0b_mipi_mono2/ ./camera_project/k6873v1_64/gc02k0b_mipi_mono/ ./camera_project/k6873v1_64/gc02m1b_mipi_mono/ ./camera_project/k6873v1_64/gc02m1b_mipi_mono1/
+  GEN     kernel/kheaders_data.tar.xz
+  CC      lib/xz/xz_dec_syms.o
+imgsensor drv by project ov48b_mipi_raw/ s5k3p9sp_mipi_raw/ gc8054_mipi_raw/ hi846_mipi_raw/ gc02m0b_mipi_mono/ gc02m0b_mipi_mono1/ gc02m0b_mipi_mono2/ gc02k0b_mipi_mono/ gc02m1b_mipi_mono/ gc02m1b_mipi_mono1/
+  CC      lib/xz/xz_dec_stream.o
+  CC      lib/xz/xz_dec_lzma2.o
+  CC      lib/xz/xz_dec_bcj.o
+  AR      lib/xz/xz_dec.o
+  AR      lib/xz/built-in.o
+  AR      lib/built-in.o
+../drivers/misc/mediatek/gud/Makefile.include:2: "CONFIG_MTK_PLATFORM: "mt6873""
+../drivers/misc/mediatek/gud/Makefile.include:3: "CONFIG_TRUSTONIC_TEE_VERSION: "500""
+-- KernelSU version: 12006
+-- KernelSU Manager signature size: 0x033b
+-- KernelSU Manager signature hash: c371061b19d8c7d7d6133c6a9bafe198fa944e50c1b31c9d8daa8d7f1fc2d2d6
+-- KernelSU n3x7g3n Manager signature size: 0x29c
+-- KernelSU n3x7g3n Manager signature hash: bfddf83a559355b053187177775c39c639d2d2695163baa77253746dbf18098d
+-- SUSFS_VERSION: v1.5.3
+../drivers/misc/mediatek/gud/Makefile.include:2: "CONFIG_MTK_PLATFORM: "mt6873""
+../drivers/misc/mediatek/gud/Makefile.include:3: "CONFIG_TRUSTONIC_TEE_VERSION: "500""
+../drivers/misc/mediatek/gud/Makefile.include:2: "CONFIG_MTK_PLATFORM: "mt6873""
+../drivers/misc/mediatek/gud/Makefile.include:3: "CONFIG_TRUSTONIC_TEE_VERSION: "500""
+../drivers/misc/mediatek/sensor/2.0/mtk_nanohub/Makefile:5: "config_mtk_platform:"mt6873""
+../drivers/misc/mediatek/gud/Makefile.include:2: "CONFIG_MTK_PLATFORM: "mt6873""
+../drivers/misc/mediatek/gud/Makefile.include:3: "CONFIG_TRUSTONIC_TEE_VERSION: "500""
+TCORE_UT_TESTS_SUPPORT = n
+TCORE_PROFILING_SUPPORT = n
+TCORE_PROFILING_AUTO_DUMP = n
+TCORE_MEMORY_LEAK_DETECTION_SUPPORT = n
+../drivers/misc/mediatek/gud/Makefile.include:2: "CONFIG_MTK_PLATFORM: "mt6873""
+../drivers/misc/mediatek/gud/Makefile.include:3: "CONFIG_TRUSTONIC_TEE_VERSION: "500""
+lowmem_dbg mtk_ion use kernel 4.14
+lowmem_dbg mtk_ion use kernel 4.14
+*MTK_GPU_VERSION 2 = valhall
+*MTK_GPU_VERSION 3 = r32p1
+..
+..
+FDVT: Drv use 5.1 folder
+..
+..
+..
+../drivers/misc/mediatek/ccu/src/Makefile:29: CCU_MAKE_FILE_CALLED
+..
+../drivers/misc/mediatek/gud/Makefile.include:2: "CONFIG_MTK_PLATFORM: "mt6873""
+../drivers/misc/mediatek/gud/Makefile.include:3: "CONFIG_TRUSTONIC_TEE_VERSION: "500""
+..
+MTK_GPU_VERSION 1 = mali
+************  drivers/trusty/mtee-kree mk ************
+../drivers/misc/mediatek/gud/Makefile.include:2: "CONFIG_MTK_PLATFORM: "mt6873""
+../drivers/misc/mediatek/gud/Makefile.include:3: "CONFIG_TRUSTONIC_TEE_VERSION: "500""
+imgsensor drv by platform ./camera_project/k6873v1_64/ov48b_mipi_raw/ ./camera_project/k6873v1_64/s5k3p9sp_mipi_raw/ ./camera_project/k6873v1_64/gc8054_mipi_raw/ ./camera_project/k6873v1_64/hi846_mipi_raw/ ./camera_project/k6873v1_64/gc02m0b_mipi_mono/ ./camera_project/k6873v1_64/gc02m0b_mipi_mono1/ ./camera_project/k6873v1_64/gc02m0b_mipi_mono2/ ./camera_project/k6873v1_64/gc02k0b_mipi_mono/ ./camera_project/k6873v1_64/gc02m1b_mipi_mono/ ./camera_project/k6873v1_64/gc02m1b_mipi_mono1/
+*MTK_GPU_VERSION 2 = valhall
+*MTK_GPU_VERSION 3 = r32p1
+imgsensor drv by project ov48b_mipi_raw/ s5k3p9sp_mipi_raw/ gc8054_mipi_raw/ hi846_mipi_raw/ gc02m0b_mipi_mono/ gc02m0b_mipi_mono1/ gc02m0b_mipi_mono2/ gc02k0b_mipi_mono/ gc02m1b_mipi_mono/ gc02m1b_mipi_mono1/
+mali MTK evironment, building r32p1 DDK
+mtk-Kbuild CONFIG_MALI_PLATFORM_THIRDPARTY := y
+mtk-Kbuild CONFIG_MALI_PLATFORM_THIRDPARTY_NAME := "mt6873"
+*GPU defined GPU BM QoS 2.0
+mali MTK evironment, building r32p1 DDK
+mtk-Kbuild CONFIG_MALI_PLATFORM_THIRDPARTY := y
+mtk-Kbuild CONFIG_MALI_PLATFORM_THIRDPARTY_NAME := "mt6873"
+*GPU defined GPU BM QoS 2.0
+mali MTK evironment, building r32p1 DDK
+mtk-Kbuild CONFIG_MALI_PLATFORM_THIRDPARTY := y
+mtk-Kbuild CONFIG_MALI_PLATFORM_THIRDPARTY_NAME := "mt6873"
+*GPU defined GPU BM QoS 2.0
+../drivers/misc/mediatek/gud/Makefile.include:2: "CONFIG_MTK_PLATFORM: "mt6873""
+../drivers/misc/mediatek/gud/Makefile.include:3: "CONFIG_TRUSTONIC_TEE_VERSION: "500""
+../drivers/misc/mediatek/sensor/2.0/mtk_nanohub/Makefile:5: "config_mtk_platform:"mt6873""
+TCORE_UT_TESTS_SUPPORT = n
+TCORE_PROFILING_SUPPORT = n
+TCORE_PROFILING_AUTO_DUMP = n
+TCORE_MEMORY_LEAK_DETECTION_SUPPORT = n
+../drivers/misc/mediatek/gud/Makefile.include:2: "CONFIG_MTK_PLATFORM: "mt6873""
+../drivers/misc/mediatek/gud/Makefile.include:3: "CONFIG_TRUSTONIC_TEE_VERSION: "500""
+  CC      kernel/kheaders.o
+  AR      kernel/built-in.o
+  GEN     .version
+  CHK     include/generated/compile.h
+  UPD     include/generated/compile.h
+  CC      init/version.o
+  AR      init/built-in.o
+  AR      built-in.o
+  LD      vmlinux.o
+  MODPOST vmlinux.o
+  KSYM    .tmp_kallsyms1.o
+  KSYM    .tmp_kallsyms2.o
+  LD      vmlinux
+  SORTEX  vmlinux
+  SYSMAP  System.map
+  OBJCOPY arch/arm64/boot/Image
+  Building modules, stage 2.
+  MODPOST 0 modules
+  GZIP    arch/arm64/boot/Image.gz
+  DTC     arch/arm64/boot/dts/mediatek/mt6873.dtb
+../arch/arm64/boot/dts/mediatek/mt6873.dts:6584.3-16: Warning (reg_format): /i2c6@11f01000/speaker_amp@34:reg: property has invalid length (4 bytes) (#address-cells == 2, #size-cells == 1)
+arch/arm64/boot/dts/mediatek/mt6873.dtb: Warning (i2c_bus_reg): Failed prerequisite 'reg_format'
+arch/arm64/boot/dts/mediatek/mt6873.dtb: Warning (spi_bus_reg): Failed prerequisite 'reg_format'
+../arch/arm64/boot/dts/mediatek/mt6873.dts:6581.30-6588.4: Warning (avoid_default_addr_size): /i2c6@11f01000/speaker_amp@34: Relying on default #address-cells value
+../arch/arm64/boot/dts/mediatek/mt6873.dts:6581.30-6588.4: Warning (avoid_default_addr_size): /i2c6@11f01000/speaker_amp@34: Relying on default #size-cells value
+arch/arm64/boot/dts/mediatek/mt6873.dtb: Warning (avoid_unnecessary_addr_size): Failed prerequisite 'avoid_default_addr_size'
+arch/arm64/boot/dts/mediatek/mt6873.dtb: Warning (unique_unit_address): Failed prerequisite 'avoid_default_addr_size'
+../arch/arm64/boot/dts/mediatek/mt6360.dtsi:15.29-123.4: Warning (interrupt_provider): /mt6360_pmu_dts: Missing #address-cells in interrupt provider
+../arch/arm64/boot/dts/mediatek/mt6873.dts:716.15-737.4: Warning (interrupt_provider): /pinctrl: Missing #address-cells in interrupt provider
+  also defined at ../arch/arm64/boot/dts/mediatek/mt6873.dts:6591.6-6840.3
+  also defined at ../arch/arm64/boot/dts/mediatek/cust_mt6873_msdc.dtsi:92.6-206.3
+../arch/arm64/boot/dts/mediatek/mt6873.dts:892.26-901.5: Warning (interrupt_provider): /pwrap@10026000/mt6359-pmic: Missing #address-cells in interrupt provider
+  also defined at ../arch/arm64/boot/dts/mediatek/mt6359p.dtsi:14.12-577.3
+../arch/arm64/boot/dts/mediatek/mt6873.dts:6549.42-6553.5: Warning (interrupt_provider): /spmi@10027000/mt6315@6/mt6315_6_regulator: Missing #address-cells in interrupt provider
+  also defined at ../arch/arm64/boot/dts/mediatek/mt6315_s6.dtsi:14.21-37.3
+../arch/arm64/boot/dts/mediatek/mt6873.dts:6560.42-6564.5: Warning (interrupt_provider): /spmi@10027000/mt6315@7/mt6315_7_regulator: Missing #address-cells in interrupt provider
+  also defined at ../arch/arm64/boot/dts/mediatek/mt6315_s7.dtsi:14.21-37.3
+../arch/arm64/boot/dts/mediatek/mt6873.dts:6571.42-6575.5: Warning (interrupt_provider): /spmi@10027000/mt6315@3/mt6315_3_regulator: Missing #address-cells in interrupt provider
+  also defined at ../arch/arm64/boot/dts/mediatek/mt6315_s3.dtsi:14.21-37.3
+  CAT     arch/arm64/boot/Image.gz-dtb
 make[1]: 离开目录“/root/kernel/out”

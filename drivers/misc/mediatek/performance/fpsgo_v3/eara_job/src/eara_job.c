@@ -1389,6 +1389,8 @@ static const struct file_operations eara_pwr_tbl_fops = {
 	.release = single_release,
 };
 
+struct dentry *fpsgo_debugfs_dir;
+
 static int __init init_eara_job(void)
 {
 

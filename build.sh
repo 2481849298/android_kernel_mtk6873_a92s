@@ -52,8 +52,8 @@ compile_kernel() {
     
         echo -e "${CYAN}=============== Make Kernel  ===============${NC}"
     start_time=$(date +%s)
-#    make CC="ccache clang" ${BUILD_ARGS} 2>&1 | tee kernel.log
-  make CC="ccache clang" ${BUILD_ARGS} modules_prepare 2>&1 | tee kernel.log  
+   make CC="ccache clang" ${BUILD_ARGS} 2>&1 | tee kernel.log
+#  make CC="ccache clang" ${BUILD_ARGS} modules_prepare 2>&1 | tee kernel.log  
     # 检查 make 命令是否执行成功
     if [[ $? -ne 0 ]]; then
         echo -e "${RED}>>> build kernel error, exiting!${NC}"
