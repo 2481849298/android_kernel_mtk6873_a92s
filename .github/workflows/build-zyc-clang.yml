@@ -16,7 +16,7 @@ jobs:
     - name: 构建编译内核环境
       run: |
         sudo apt-get update
-        sudo -E apt-get -y -qq install git make bc bison ccache openssl dos2unix zip kmod cpio flex libelf-dev curl libssl-dev libtfm-dev wget device-tree-compiler ca-certificates python3 python-is-python3 binutils binutils-aarch64-linux-gnu binutils-arm-linux-gnueabi
+        sudo apt-get install git ccache automake flex lzop bison gperf build-essential zip curl zlib1g-dev g++-multilib libxml2-utils bzip2 libbz2-dev libbz2-1.0 libghc-bzlib-dev squashfs-tools pngcrush schedtool dpkg-dev liblz4-tool make optipng maven libssl-dev pwgen libswitch-perl policycoreutils minicom libxml-sax-base-perl libxml-simple-perl bc libc6-dev-i386 libncurses6 libx11-dev lib32z-dev libgl1-mesa-dev xsltproc unzip device-tree-compiler python3
         mkdir -p $GITHUB_WORKSPACE/kernel_workspace
 
 
@@ -60,7 +60,7 @@ jobs:
         git submodule update --init --recursive
         export PATH=$GITHUB_WORKSPACE/kernel_workspace/clang/bin:$PATH
         make -s -j$(nproc --all) O=out ARCH=arm64 mtk6873_defconfig
-        make -j$(nproc --all) O=out ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- LD=ld.lld CC=clang CLANG_TRIPLE=aarch64-linux-gnu-
+        make -j$(nproc --all) O=out ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- LD=ld.lld CC=clang
                 
 
     - name: 制作Anykernel3卡刷包
