@@ -148,11 +148,7 @@ OplusKernelEnvConfig.mk:111: myfeature is OPLUS_FEATURE_WIFI_OPLUSWFD
 ../drivers/misc/mediatek/gud/Makefile.include:3: "CONFIG_TRUSTONIC_TEE_VERSION: "500""
   CHK     kernel/config_data.h
   CHK     kernel/kheaders_data.tar.xz
-../drivers/misc/mediatek/gud/Makefile.include:2: "CONFIG_MTK_PLATFORM: "mt6873""
-../drivers/misc/mediatek/gud/Makefile.include:3: "CONFIG_TRUSTONIC_TEE_VERSION: "500""
-../drivers/misc/mediatek/gud/Makefile.include:2: "CONFIG_MTK_PLATFORM: "mt6873""
-../drivers/misc/mediatek/gud/Makefile.include:3: "CONFIG_TRUSTONIC_TEE_VERSION: "500""
--- KernelSU-Next version: 10204
+-- KernelSU-Next version: 10206
 -- KernelSU-Next Manager signature size: 0x3e6
 -- KernelSU-Next Manager signature hash: 79e590113c4c4c0c222978e413a5faa801666957b1212a328e46c00c69821bf7
 -- KernelSU Manager signature size: 0x033b
@@ -161,26 +157,40 @@ OplusKernelEnvConfig.mk:111: myfeature is OPLUS_FEATURE_WIFI_OPLUSWFD
   CC      drivers/kernelsu/ksu.o
 ../drivers/misc/mediatek/gud/Makefile.include:2: "CONFIG_MTK_PLATFORM: "mt6873""
 ../drivers/misc/mediatek/gud/Makefile.include:3: "CONFIG_TRUSTONIC_TEE_VERSION: "500""
-  CC      drivers/kernelsu/core_hook.o
-lowmem_dbg mtk_ion use kernel 4.14
-lowmem_dbg mtk_ion use kernel 4.14
-*MTK_GPU_VERSION 2 = valhall
-*MTK_GPU_VERSION 3 = r32p1
+../drivers/misc/mediatek/gud/Makefile.include:2: "CONFIG_MTK_PLATFORM: "mt6873""
+../drivers/misc/mediatek/gud/Makefile.include:3: "CONFIG_TRUSTONIC_TEE_VERSION: "500""
+  CC      drivers/kernelsu/allowlist.o
+../drivers/misc/mediatek/gud/Makefile.include:2: "CONFIG_MTK_PLATFORM: "mt6873""
+../drivers/misc/mediatek/gud/Makefile.include:3: "CONFIG_TRUSTONIC_TEE_VERSION: "500""
+  CC      drivers/kernelsu/apk_sign.o
+  CC      drivers/kernelsu/sucompat.o
+  CC      drivers/kernelsu/throne_tracker.o
 ..
 ..
 FDVT: Drv use 5.1 folder
+  CC      drivers/kernelsu/core_hook.o
+..
+  CC      drivers/kernelsu/ksud.o
+..
+..
+..
 ..
 ../drivers/misc/mediatek/ccu/src/Makefile:29: CCU_MAKE_FILE_CALLED
-..
-..
-..
+  CC      drivers/kernelsu/embed_ksud.o
+  CC      drivers/kernelsu/kernel_compat.o
+  CC      drivers/kernelsu/selinux/selinux.o
+*MTK_GPU_VERSION 2 = valhall
+*MTK_GPU_VERSION 3 = r32p1
+lowmem_dbg mtk_ion use kernel 4.14
+lowmem_dbg mtk_ion use kernel 4.14
+  CC      drivers/kernelsu/selinux/sepolicy.o
 ../drivers/misc/mediatek/gud/Makefile.include:2: "CONFIG_MTK_PLATFORM: "mt6873""
 ../drivers/misc/mediatek/gud/Makefile.include:3: "CONFIG_TRUSTONIC_TEE_VERSION: "500""
-..
+  CC      drivers/kernelsu/selinux/rules.o
 MTK_GPU_VERSION 1 = mali
-imgsensor drv by platform ./camera_project/k6873v1_64/ov48b_mipi_raw/ ./camera_project/k6873v1_64/s5k3p9sp_mipi_raw/ ./camera_project/k6873v1_64/gc8054_mipi_raw/ ./camera_project/k6873v1_64/hi846_mipi_raw/ ./camera_project/k6873v1_64/gc02m0b_mipi_mono/ ./camera_project/k6873v1_64/gc02m0b_mipi_mono1/ ./camera_project/k6873v1_64/gc02m0b_mipi_mono2/ ./camera_project/k6873v1_64/gc02k0b_mipi_mono/ ./camera_project/k6873v1_64/gc02m1b_mipi_mono/ ./camera_project/k6873v1_64/gc02m1b_mipi_mono1/
   AR      drivers/kernelsu/kernelsu.o
   AR      drivers/kernelsu/built-in.o
+imgsensor drv by platform ./camera_project/k6873v1_64/ov48b_mipi_raw/ ./camera_project/k6873v1_64/s5k3p9sp_mipi_raw/ ./camera_project/k6873v1_64/gc8054_mipi_raw/ ./camera_project/k6873v1_64/hi846_mipi_raw/ ./camera_project/k6873v1_64/gc02m0b_mipi_mono/ ./camera_project/k6873v1_64/gc02m0b_mipi_mono1/ ./camera_project/k6873v1_64/gc02m0b_mipi_mono2/ ./camera_project/k6873v1_64/gc02k0b_mipi_mono/ ./camera_project/k6873v1_64/gc02m1b_mipi_mono/ ./camera_project/k6873v1_64/gc02m1b_mipi_mono1/
 ************  drivers/trusty/mtee-kree mk ************
 ../drivers/misc/mediatek/gud/Makefile.include:2: "CONFIG_MTK_PLATFORM: "mt6873""
 ../drivers/misc/mediatek/gud/Makefile.include:3: "CONFIG_TRUSTONIC_TEE_VERSION: "500""
@@ -201,13 +211,13 @@ mtk-Kbuild CONFIG_MALI_PLATFORM_THIRDPARTY_NAME := "mt6873"
 imgsensor drv by project ov48b_mipi_raw/ s5k3p9sp_mipi_raw/ gc8054_mipi_raw/ hi846_mipi_raw/ gc02m0b_mipi_mono/ gc02m0b_mipi_mono1/ gc02m0b_mipi_mono2/ gc02k0b_mipi_mono/ gc02m1b_mipi_mono/ gc02m1b_mipi_mono1/
 ../drivers/misc/mediatek/gud/Makefile.include:2: "CONFIG_MTK_PLATFORM: "mt6873""
 ../drivers/misc/mediatek/gud/Makefile.include:3: "CONFIG_TRUSTONIC_TEE_VERSION: "500""
+../drivers/misc/mediatek/sensor/2.0/mtk_nanohub/Makefile:5: "config_mtk_platform:"mt6873""
 TCORE_UT_TESTS_SUPPORT = n
 TCORE_PROFILING_SUPPORT = n
 TCORE_PROFILING_AUTO_DUMP = n
 TCORE_MEMORY_LEAK_DETECTION_SUPPORT = n
 ../drivers/misc/mediatek/gud/Makefile.include:2: "CONFIG_MTK_PLATFORM: "mt6873""
 ../drivers/misc/mediatek/gud/Makefile.include:3: "CONFIG_TRUSTONIC_TEE_VERSION: "500""
-../drivers/misc/mediatek/sensor/2.0/mtk_nanohub/Makefile:5: "config_mtk_platform:"mt6873""
   AR      drivers/built-in.o
   GEN     .version
   CHK     include/generated/compile.h
