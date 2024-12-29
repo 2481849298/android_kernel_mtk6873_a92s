@@ -121,7 +121,6 @@ config SQUASHFS_ZLIB
 	  If unsure, say Y.
 
 config SQUASHFS_LZ4
-	default y
 	bool "Include support for LZ4 compressed file systems"
 	depends on SQUASHFS
 	select LZ4_DECOMPRESS

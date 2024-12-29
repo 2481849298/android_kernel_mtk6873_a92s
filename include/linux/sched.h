@@ -1349,11 +1349,6 @@ struct task_struct {
 	unsigned int			kasan_depth;
 #endif
 
-
-#ifdef CONFIG_KSU_SUSFS
-	u64 android_kabi_reserved8;
-#endif
-
 #ifdef CONFIG_FUNCTION_GRAPH_TRACER
 	/* Index of current stored address in ret_stack: */
 	int				curr_ret_stack;
@@ -1484,6 +1479,9 @@ struct task_struct {
 	 * New fields for task_struct should be added above here, so that
 	 * they are included in the randomized portion of task_struct.
 	 */
+#ifdef CONFIG_KSU_SUSFS
+	u64 android_kabi_reserved8;
+#endif
 	randomized_struct_fields_end
 
 	/* CPU-specific state of this task: */
