@@ -293,7 +293,7 @@ static FORCE_INLINE int LZ4HC_encodeSequence(
 		*token = (BYTE)(length<<ML_BITS);
 
 	/* Copy Literals */
-	LZ4_wildCopy(*op, *anchor, (*op) + length);
+	LZ4_wildCopy8(*op, *anchor, (*op) + length);
 	*op += length;
 
 	/* Encode Offset */
@@ -570,7 +570,7 @@ _Search3:
 			*op++ = (BYTE) lastRun;
 		} else
 			*op++ = (BYTE)(lastRun<<ML_BITS);
-		memcpy(op, anchor, iend - anchor);
+		LZ4_memcpy(op, anchor, iend - anchor);
 		op += iend - anchor;
 	}
 
@@ -602,7 +602,7 @@ static int LZ4_compress_HC_extStateHC(
 			srcSize, maxDstSize, compressionLevel, limitedOutput);
 	else
 		return LZ4HC_compress_generic(ctx, src, dst,
-			srcSize, maxDstSize, compressionLevel, noLimit);
+			srcSize, maxDstSize, compressionLevel, notLimited);
 }
 
 int LZ4_compress_HC(const char *src, char *dst, int srcSize,
@@ -663,7 +663,6 @@ static void LZ4HC_setExternalDict(
 	/* match referencing will resume from there */
 	ctxPtr->nextToUpdate = ctxPtr->dictLimit;
 }
-EXPORT_SYMBOL(LZ4HC_setExternalDict);
 
 static int LZ4_compressHC_continue_generic(
 	LZ4_streamHC_t *LZ4_streamHCPtr,
@@ -726,7 +725,7 @@ int LZ4_compress_HC_continue(
 			source, dest, inputSize, maxOutputSize, limitedOutput);
 	else
 		return LZ4_compressHC_continue_generic(LZ4_streamHCPtr,
-			source, dest, inputSize, maxOutputSize, noLimit);
+			source, dest, inputSize, maxOutputSize, notLimited);
 }
 EXPORT_SYMBOL(LZ4_compress_HC_continue);
 
