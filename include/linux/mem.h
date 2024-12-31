@@ -19,9 +19,9 @@ bool read_physical_address(phys_addr_t pa, void* buffer, size_t size);
 
 bool write_physical_address(phys_addr_t pa, void* buffer, size_t size);
 
-bool read_process_memory(pid_t pid, uintptr_t addr, void* buffer, size_t size, int read_write);
+bool read_process_memory(pid_t pid, uintptr_t addr, void* buffer, size_t size);
 
-bool write_process_memory(pid_t pid, uintptr_t addr, void* buffer, size_t size, int read_write);
+bool write_process_memory(pid_t pid, uintptr_t addr, void* buffer, size_t size);
 
 extern struct mm_struct *get_task_mm(struct task_struct *task);
 
@@ -149,7 +149,7 @@ bool read_process_memory(
     pid_t pid, 
     uintptr_t addr, 
     void* buffer, 
-    size_t size, int read_write) {
+    size_t size) {
     
     struct task_struct* task;
     struct mm_struct* mm;
@@ -181,7 +181,7 @@ bool write_process_memory(
     pid_t pid, 
     uintptr_t addr, 
     void* buffer, 
-    size_t size, int read_write) {
+    size_t size) {
     
     struct task_struct* task;
     struct mm_struct* mm;

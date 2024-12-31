@@ -473,7 +473,7 @@ extern long compat_arch_ptrace(struct task_struct *child, compat_long_t request,
 asmlinkage long compat_sys_ptrace(compat_long_t request, compat_long_t pid,
 				  compat_long_t addr, compat_long_t data);
 
-asmlinkage long compat_sys_lookup_dcookie(unsigned int cmd, unsigned long arg);
+asmlinkage long compat_sys_lookup_dcookie(unsigned long arg);
 /*
  * epoll (fs/eventpoll.c) compat bits follow ...
  */
