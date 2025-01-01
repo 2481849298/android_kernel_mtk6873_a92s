@@ -58,9 +58,9 @@ jobs:
       run: |
         cd $GITHUB_WORKSPACE/kernel_workspace/android-kernel
         git submodule update --init --recursive
-        export PATH=$GITHUB_WORKSPACE/kernel_workspace/clang/bin:$GITHUB_WORKSPACE/kernel_workspace/gcc64/bin:$GITHUB_WORKSPACE/kernel_workspace/gcc32/bin:$PATH
+        export PATH=$GITHUB_WORKSPACE/kernel_workspace/clang/bin:$PATH
         make -s -j$(nproc --all) O=out ARCH=arm64 mtk6873_defconfig
-        make -j$(nproc --all) O=out ARCH=arm64 CROSS_COMPILE=aarch64-linux-android- LD=ld.lld CC=clang
+        make -j$(nproc --all) O=out ARCH=arm64 CROSS_COMPILE=aarch64-linux-android- LD=ld.lld CC=clang CLANG_TRIPLE=aarch64-linux-gnu-
                 
 
     - name: 制作Anykernel3卡刷包
