@@ -5,6 +5,7 @@
 
 #define VOOC_ASIC_RK826
 
+#include <linux/string.h>
 #include <linux/kernel.h>
 #include <linux/uaccess.h>
 #include <linux/proc_fs.h>

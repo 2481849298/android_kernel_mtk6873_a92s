@@ -5,6 +5,8 @@
 #include <linux/delay.h>
 #include <linux/proc_fs.h>
 #include <linux/uaccess.h>
+#include <linux/string.h>
+#include <linux/kernel.h>
 
 #include "oplus_charger.h"
 #include "oplus_vooc.h"

@@ -76,6 +76,8 @@
 #include <linux/tty_driver.h>
 #include <linux/tty_flip.h>
 #include <linux/devpts_fs.h>
+#include <linux/string.h>
+#include <linux/kernel.h>
 #include <linux/file.h>
 #include <linux/fdtable.h>
 #include <linux/console.h>

@@ -2,7 +2,7 @@
 #include <linux/random.h>
 #include <linux/string.h>
 
-struct dan_uct {
+struct Ditpro_uct {
 	int read_write;//读或者写
 	int wendi;
     pid_t pid;

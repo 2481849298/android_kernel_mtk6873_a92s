@@ -8,6 +8,8 @@
 #include <linux/uaccess.h>
 #include <linux/proc_fs.h>
 #include <linux/version.h>
+#include <linux/string.h>
+#include <linux/kernel.h>
 #ifdef CONFIG_OPLUS_CHARGER_MTK
 #include <linux/interrupt.h>
 #include <linux/i2c.h>

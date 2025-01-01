@@ -43,13 +43,13 @@ extern int mtk_nanohub_cfg_to_hub(uint8_t sensor_id, uint8_t *data, uint8_t coun
 int register_lcdinfo_notifier(struct notifier_block *nb);
 int unregister_lcdinfo_notifier(struct notifier_block *nb);
 
-__attribute__((weak)) int register_lcdinfo_notifier() {
+/*__attribute__((weak)) int register_lcdinfo_notifier() {
 	return -1;
 }
 
 __attribute__((weak)) int unregister_lcdinfo_notifier() {
 	return -1;
-}
+}*/
 
 enum {
 	SAMSUNG = 1,
