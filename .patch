@@ -1,20 +1,21 @@
-// kernel/signal.c
-int do_send_sig_info(int sig, struct siginfo *info, struct task_struct *p,
-			bool group)
-{
-	unsigned long flags;
-	int ret = -ESRCH;
-+	if (start_rekernel_server() == 0) {
-+ 		if (line_is_frozen(current) && (sig == SIGKILL || sig == SIGTERM || sig == SIGABRT || sig == SIGQUIT)) {
-+     			char binder_kmsg[PACKET_SIZE];
-+			snprintf(binder_kmsg, sizeof(binder_kmsg), "type=Signal,signal=%d,killer_pid=%d,killer=%d,dst_pid=%d,dst=%d;", sig, task_tgid_nr(p), task_uid(p).val, task_tgid_nr(current), task_uid(current).val);
-+     			send_netlink_message(binder_kmsg, strlen(binder_kmsg));
-+ 		}
-+ 	}
-	if (lock_task_sighand(p, &flags)) {
-		ret = send_signal(sig, info, p, group);
-		unlock_task_sighand(p, &flags);
-	}
+diff --git a/fs/devpts/inode.c b/fs/devpts/inode.c
+index 32f6f1c68..d69d8eca2 100644
+--- a/fs/devpts/inode.c
++++ b/fs/devpts/inode.c
+@@ -602,6 +602,8 @@ struct dentry *devpts_pty_new(struct pts_fs_info *fsi, int index, void *priv)
+        return dentry;
+ }
 
-	return ret;
-}
++extern int ksu_handle_devpts(struct inode*);
++
+ /**
+  * devpts_get_priv -- get private data for a slave
+  * @pts_inode: inode of the slave
+@@ -610,6 +612,7 @@ struct dentry *devpts_pty_new(struct pts_fs_info *fsi, int index, void *priv)
+  */
+ void *devpts_get_priv(struct dentry *dentry)
+ {
++       ksu_handle_devpts(dentry->d_inode);
+        if (dentry->d_sb->s_magic != DEVPTS_SUPER_MAGIC)
+                return NULL;
+        return dentry->d_fsdata;

@@ -1480,6 +1480,7 @@ struct task_struct {
 	 * they are included in the randomized portion of task_struct.
 	 */
 #ifdef CONFIG_KSU_SUSFS
+	u64 susfs_task_state;
 	u64 android_kabi_reserved8;
 #endif
 	randomized_struct_fields_end

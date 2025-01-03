@@ -146,6 +146,73 @@ out:
 /* And here is where the userspace process can look up the cookie value
  * to retrieve the path.
  */
+SYSCALL_DEFINE3(lookup_dcookie, u64, cookie64, char __user *, buf, size_t, len)
+{
+	unsigned long cookie = (unsigned long)cookie64;
+	int err = -EINVAL;
+	char * kbuf;
+	char * path;
+	size_t pathlen;
+	struct dcookie_struct * dcs;
+
+	/* we could leak path information to users
+	 * without dir read permission without this
+	 */
+	if (!capable(CAP_SYS_ADMIN))
+		return -EPERM;
+
+	mutex_lock(&dcookie_mutex);
+
+	if (!is_live()) {
+		err = -EINVAL;
+		goto out;
+	}
+
+	if (!(dcs = find_dcookie(cookie)))
+		goto out;
+
+	err = -ENOMEM;
+	kbuf = kmalloc(PAGE_SIZE, GFP_KERNEL);
+	if (!kbuf)
+		goto out;
+
+	/* FIXME: (deleted) ? */
+	path = d_path(&dcs->path, kbuf, PAGE_SIZE);
+
+	mutex_unlock(&dcookie_mutex);
+
+	if (IS_ERR(path)) {
+		err = PTR_ERR(path);
+		goto out_free;
+	}
+
+	err = -ERANGE;
+ 
+	pathlen = kbuf + PAGE_SIZE - path;
+	if (pathlen <= len) {
+		err = pathlen;
+		if (copy_to_user(buf, path, pathlen))
+			err = -EFAULT;
+	}
+
+out_free:
+	kfree(kbuf);
+	return err;
+out:
+	mutex_unlock(&dcookie_mutex);
+	return err;
+}
+
+#ifdef CONFIG_COMPAT
+COMPAT_SYSCALL_DEFINE4(lookup_dcookie, u32, w0, u32, w1, char __user *, buf, compat_size_t, len)
+{
+#ifdef __BIG_ENDIAN
+	return sys_lookup_dcookie(((u64)w0 << 32) | w1, buf, len);
+#else
+	return sys_lookup_dcookie(((u64)w1 << 32) | w0, buf, len);
+#endif
+}
+#endif
 
 static int dcookie_init(void)
 {
