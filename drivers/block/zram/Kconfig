@@ -51,7 +51,6 @@ config ZRAM_MEMORY_TRACKING
 	  See Documentation/blockdev/zram.txt for more information.
 config HYBRIDSWAP
 	bool "Enable Hybridswap"
-	depends on MEMCG && ZRAM && !ZRAM_DEDUP && !ZRAM_WRITEBACK && !ZWB_HANDLE
 	default n
 	help
 	  Hybridswap is a intelligent memory management solution.

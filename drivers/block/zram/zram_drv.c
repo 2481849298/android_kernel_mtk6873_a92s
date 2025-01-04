@@ -47,7 +47,7 @@ static DEFINE_MUTEX(zram_index_mutex);
 
 static int zram_major;
 static struct zram *zram_devices;
-static const char *default_compressor = "lz4kd";
+static const char *default_compressor = "lz4";
 
 /* Module params (documentation at end) */
 static unsigned int num_devices = 1;
@@ -65,12 +65,6 @@ static int zram_bvec_read(struct zram *zram, struct bio_vec *bvec,
 static int zram_slot_trylock(struct zram *zram, u32 index)
 {
 	return bit_spin_trylock(ZRAM_LOCK, &zram->table[index].flags);
-}
-
-static inline void zram_set_element(struct zram *zram, u32 index,
-			unsigned long element)
-{
-	zram->table[index].element = element;
 }
 
 static unsigned long zram_get_element(struct zram *zram, u32 index)
@@ -234,18 +228,18 @@ static ssize_t idle_store(struct device *dev,
 	struct zram *zram = dev_to_zram(dev);
 	unsigned long nr_pages = zram->disksize >> PAGE_SHIFT;
 	int index;
-	char mode_buf[8];
+/*	char mode_buf[8];
 	ssize_t sz;
 
 	sz = strscpy(mode_buf, buf, sizeof(mode_buf));
 	if (sz <= 0)
 		return -EINVAL;
 
-	/* ignore trailing new line */
+	 ignore trailing new line 
 	if (mode_buf[sz - 1] == '\n')
-		mode_buf[sz - 1] = 0x00;
+		mode_buf[sz - 1] = 0x00;*/
 
-	if (strcmp(mode_buf, "all"))
+	if (!sysfs_streq(buf, "all"))
 		return -EINVAL;
 
 	down_read(&zram->init_lock);
@@ -358,7 +352,6 @@ static void reset_bdev(struct zram *zram)
 	zram->backing_dev = NULL;
 	zram->old_block_size = 0;
 	zram->bdev = NULL;
-
 	kvfree(zram->bitmap);
 	zram->bitmap = NULL;
 }
@@ -440,9 +433,10 @@ static ssize_t backing_dev_store(struct device *dev,
 		goto out;
 	}
 
-	bdev = bdgrab(I_BDEV(inode));
-	err = blkdev_get(bdev, FMODE_READ | FMODE_WRITE | FMODE_EXCL, zram);
-	if (err < 0) {
+	bdev = blkdev_get_by_dev(inode->i_rdev,
+			FMODE_READ | FMODE_WRITE | FMODE_EXCL, zram);
+	if (IS_ERR(bdev)) {
+		err = PTR_ERR(bdev);
 		bdev = NULL;
 		goto out;
 	}
@@ -1360,7 +1354,7 @@ static int __zram_bvec_read(struct zram *zram, struct page *page, u32 index,
 	src = zs_map_object(zram->mem_pool, handle, ZS_MM_RO);
 	if (size == PAGE_SIZE) {
 		dst = kmap_atomic(page);
-		memcpy(dst, src, PAGE_SIZE);
+		copy_page(dst, src);
 		kunmap_atomic(dst);
 		ret = 0;
 	} else {
@@ -2063,7 +2057,7 @@ static int zram_add(void)
 #ifdef CONFIG_ZRAM_WRITEBACK
 	spin_lock_init(&zram->wb_limit_lock);
 #endif
-	queue = blk_alloc_queue(GFP_KERNEL);
+	queue = blk_alloc_queue(NUMA_NO_NODE);
 	if (!queue) {
 		pr_err("Error allocating disk queue for device %d\n",
 			device_id);
@@ -2086,7 +2080,7 @@ static int zram_add(void)
 	zram->disk->first_minor = device_id;
 	zram->disk->fops = &zram_devops;
 	zram->disk->queue = queue;
-	zram->disk->queue->queuedata = zram;
+//	zram->disk->queue->queuedata = zram;
 	zram->disk->private_data = zram;
 	snprintf(zram->disk->disk_name, 16, "zram%d", device_id);
 
@@ -2175,11 +2169,6 @@ static int zram_remove(struct zram *zram)
 	del_gendisk(zram->disk);
 	blk_cleanup_queue(zram->disk->queue);
 	put_disk(zram->disk);
-#ifdef CONFIG_HYBRIDSWAP_ASYNC_COMPRESS
-	destroy_akcompressd_task(zram);
-#endif
-	if (zram_devices == zram)
-		zram_devices = NULL;
 	kfree(zram);
 	return 0;
 }
@@ -2268,7 +2257,7 @@ static void destroy_devices(void)
 	cpuhp_remove_multi_state(CPUHP_ZCOMP_PREPARE);
 }
 
-unsigned long zram_mlog(void)
+/*unsigned long zram_mlog(void)
 {
 #define P2K(x) (((unsigned long)x) << (PAGE_SHIFT - 10))
 	if (num_devices == 0 && init_done(zram_devices))
@@ -2340,7 +2329,7 @@ static const struct file_operations zraminfo_proc_fops = {
 	.llseek		= seq_lseek,
 	.release	= single_release,
 };
-#endif
+#endif*/
 
 static int __init zram_init(void)
 {
@@ -2376,15 +2365,7 @@ static int __init zram_init(void)
 		num_devices--;
 	}
 
-#ifdef CONFIG_PROC_FS
-	proc_create("zraminfo", 0644, NULL, &zraminfo_proc_fops);
-#endif
 
-#ifdef CONFIG_HYBRIDSWAP
-	ret = hybridswap_pre_init();
-	if (ret)
-		goto out_error;
-#endif
 
 	return 0;
 
