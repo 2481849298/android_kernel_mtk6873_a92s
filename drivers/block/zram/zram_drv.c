@@ -228,18 +228,18 @@ static ssize_t idle_store(struct device *dev,
 	struct zram *zram = dev_to_zram(dev);
 	unsigned long nr_pages = zram->disksize >> PAGE_SHIFT;
 	int index;
-/*	char mode_buf[8];
+	char mode_buf[8];
 	ssize_t sz;
 
 	sz = strscpy(mode_buf, buf, sizeof(mode_buf));
 	if (sz <= 0)
 		return -EINVAL;
 
-	 ignore trailing new line 
+	// ignore trailing new line 
 	if (mode_buf[sz - 1] == '\n')
-		mode_buf[sz - 1] = 0x00;*/
+		mode_buf[sz - 1] = 0x00;
 
-	if (!sysfs_streq(buf, "all"))
+	if (strcmp(mode_buf, "all"))
 		return -EINVAL;
 
 	down_read(&zram->init_lock);
@@ -352,6 +352,7 @@ static void reset_bdev(struct zram *zram)
 	zram->backing_dev = NULL;
 	zram->old_block_size = 0;
 	zram->bdev = NULL;
+	
 	kvfree(zram->bitmap);
 	zram->bitmap = NULL;
 }
@@ -433,10 +434,9 @@ static ssize_t backing_dev_store(struct device *dev,
 		goto out;
 	}
 
-	bdev = blkdev_get_by_dev(inode->i_rdev,
-			FMODE_READ | FMODE_WRITE | FMODE_EXCL, zram);
-	if (IS_ERR(bdev)) {
-		err = PTR_ERR(bdev);
+	bdev = bdgrab(I_BDEV(inode));
+	err = blkdev_get(bdev, FMODE_READ | FMODE_WRITE | FMODE_EXCL, zram);
+	if (err < 0) {
 		bdev = NULL;
 		goto out;
 	}
@@ -2057,7 +2057,7 @@ static int zram_add(void)
 #ifdef CONFIG_ZRAM_WRITEBACK
 	spin_lock_init(&zram->wb_limit_lock);
 #endif
-	queue = blk_alloc_queue(NUMA_NO_NODE);
+	queue = blk_alloc_queue(GFP_KERNEL);
 	if (!queue) {
 		pr_err("Error allocating disk queue for device %d\n",
 			device_id);
@@ -2080,7 +2080,7 @@ static int zram_add(void)
 	zram->disk->first_minor = device_id;
 	zram->disk->fops = &zram_devops;
 	zram->disk->queue = queue;
-//	zram->disk->queue->queuedata = zram;
+	zram->disk->queue->queuedata = zram;
 	zram->disk->private_data = zram;
 	snprintf(zram->disk->disk_name, 16, "zram%d", device_id);
 
@@ -2169,6 +2169,8 @@ static int zram_remove(struct zram *zram)
 	del_gendisk(zram->disk);
 	blk_cleanup_queue(zram->disk->queue);
 	put_disk(zram->disk);
+	if (zram_devices == zram)
+		zram_devices = NULL;
 	kfree(zram);
 	return 0;
 }
@@ -2257,7 +2259,7 @@ static void destroy_devices(void)
 	cpuhp_remove_multi_state(CPUHP_ZCOMP_PREPARE);
 }
 
-/*unsigned long zram_mlog(void)
+unsigned long zram_mlog(void)
 {
 #define P2K(x) (((unsigned long)x) << (PAGE_SHIFT - 10))
 	if (num_devices == 0 && init_done(zram_devices))
@@ -2267,7 +2269,7 @@ static void destroy_devices(void)
 	return 0;
 }
 
-#ifdef CONFIG_PROC_FS
+/*#ifdef CONFIG_PROC_FS
 static int zraminfo_proc_show(struct seq_file *m, void *v)
 {
 	struct zs_pool_stats pool_stats;
