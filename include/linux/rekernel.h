@@ -9,12 +9,14 @@
 
 #define NETLINK_REKERNEL_MAX     		26
 #define NETLINK_REKERNEL_MIN     		22
-#define USER_PORT        			    100
-#define PACKET_SIZE 				    128
-#define MIN_USERAPP_UID (10000)
-#define MAX_SYSTEM_UID  (2000)
+#define REKERNEL_USER_PORT        			    100
+#define REKERNEL_PACKET_SIZE 				    128
+#define REKERNEL_MIN_USERAPP_UID (10000)
+#define REKERNEL_MAX_SYSTEM_UID  (2000)
+#define REKERNEL_RESERVE_ORDER  17
+#define REKERNEL_WARN_AHEAD_SPACE  (1 << REKERNEL_RESERVE_ORDER)
 
 static struct sock *rekernel_netlink;
-static int netlink_unit;
+static int rekernel_netlink_unit;
 
 #endif

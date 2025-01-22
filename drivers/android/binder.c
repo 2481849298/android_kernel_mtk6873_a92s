@@ -4253,7 +4253,7 @@ static struct binder_node *binder_get_node_refs_for_txn(
 
 static inline bool line_is_frozen(struct task_struct *task)
 {
-	return frozen(task->group_leader) || freezing(task->group_leader);
+	return frozen(task) || freezing(task);
 }
 
 static int send_netlink_message(char *msg, uint16_t len) {
@@ -4266,7 +4266,7 @@ static int send_netlink_message(char *msg, uint16_t len) {
         return -1;
     }
 
-    nlhdr = nlmsg_put(skbuffer, 0, 0, netlink_unit, len, 0);
+    nlhdr = nlmsg_put(skbuffer, 0, 0, rekernel_netlink_unit, len, 0);
     if (!nlhdr) {
         printk("nlmsg_put failaure.\n");
         nlmsg_free(skbuffer);
@@ -4274,7 +4274,7 @@ static int send_netlink_message(char *msg, uint16_t len) {
     }
 
     memcpy(nlmsg_data(nlhdr), msg, len);
-    return netlink_unicast(rekernel_netlink, skbuffer, USER_PORT, MSG_DONTWAIT);
+    return netlink_unicast(rekernel_netlink, skbuffer, REKERNEL_USER_PORT, MSG_DONTWAIT);
 }
 
 static int start_rekernel_server(void) {
@@ -4282,14 +4282,14 @@ static int start_rekernel_server(void) {
   struct netlink_kernel_cfg rekernel_cfg = { 
     .input = NULL,
   };
-  if (rekernel_netlink)
+  if (rekernel_netlink != NULL)
     return 0;
-  for (netlink_unit = NETLINK_REKERNEL_MIN; netlink_unit < NETLINK_REKERNEL_MAX; netlink_unit++) {
-    rekernel_netlink = (struct sock *)netlink_kernel_create(&init_net, netlink_unit, &rekernel_cfg);
+  for (rekernel_netlink_unit = NETLINK_REKERNEL_MIN; rekernel_netlink_unit < NETLINK_REKERNEL_MAX; rekernel_netlink_unit++) {
+    rekernel_netlink = (struct sock *)netlink_kernel_create(&init_net, rekernel_netlink_unit, &rekernel_cfg);
     if (rekernel_netlink != NULL)
       break;
   }
-  printk("Created Re:Kernel server! NETLINK UNIT: %d\n", netlink_unit);
+  printk("Created Re:Kernel server! NETLINK UNIT: %d\n", rekernel_netlink_unit);
   if (rekernel_netlink == NULL) {
     printk("Failed to create Re:Kernel server!\n");
     return -1;
@@ -4426,10 +4426,10 @@ static void binder_transaction(struct binder_proc *proc,
 			if (target_proc
             	&& (NULL != target_proc->tsk)
             	&& (NULL != proc->tsk)
-            	&& (task_uid(target_proc->tsk).val > MIN_USERAPP_UID)
+            	&& (task_uid(target_proc->tsk).val <= REKERNEL_MAX_SYSTEM_UID)
             	&& (proc->pid != target_proc->pid)
             	&& line_is_frozen(target_proc->tsk)) {
-     				char binder_kmsg[PACKET_SIZE];
+     				char binder_kmsg[REKERNEL_PACKET_SIZE];
             		snprintf(binder_kmsg, sizeof(binder_kmsg), "type=Binder,bindertype=reply,oneway=0,from_pid=%d,from=%d,target_pid=%d,target=%d;", proc->pid, task_uid(proc->tsk).val, target_proc->pid, task_uid(target_proc->tsk).val);
          			send_netlink_message(binder_kmsg, strlen(binder_kmsg));
    			}
@@ -4512,10 +4512,10 @@ static void binder_transaction(struct binder_proc *proc,
 			if (target_proc
             	&& (NULL != target_proc->tsk)
             	&& (NULL != proc->tsk)
-            	&& (task_uid(target_proc->tsk).val <= MAX_SYSTEM_UID)
+            	&& (task_uid(target_proc->tsk).val > REKERNEL_MIN_USERAPP_UID)
             	&& (proc->pid != target_proc->pid)
             	&& line_is_frozen(target_proc->tsk)) {
-     				char binder_kmsg[PACKET_SIZE];
+     				char binder_kmsg[REKERNEL_PACKET_SIZE];
             		snprintf(binder_kmsg, sizeof(binder_kmsg), "type=Binder,bindertype=transaction,oneway=%d,from_pid=%d,from=%d,target_pid=%d,target=%d;",  tr->flags & TF_ONE_WAY, proc->pid, task_uid(proc->tsk).val, target_proc->pid, task_uid(target_proc->tsk).val);
          			send_netlink_message(binder_kmsg, strlen(binder_kmsg));
    			}
