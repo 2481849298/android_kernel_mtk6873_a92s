@@ -178,17 +178,6 @@ int ftrace_modify_call(struct dyn_ftrace *rec, unsigned long old_addr,
  * Note: ftrace_process_locs() has pre-adjusted rec->ip to be the address of
  * the BL.
  */
-int ftrace_init_nop(struct module *mod, struct dyn_ftrace *rec)
-{
-	unsigned long pc = rec->ip - AARCH64_INSN_SIZE;
-	u32 old, new;
-
-	old = aarch64_insn_gen_nop();
-	new = aarch64_insn_gen_move_reg(AARCH64_INSN_REG_9,
-					AARCH64_INSN_REG_LR,
-					AARCH64_INSN_VARIANT_64BIT);
-	return ftrace_modify_code(pc, old, new, true);
-}
 #endif
 
 /*
