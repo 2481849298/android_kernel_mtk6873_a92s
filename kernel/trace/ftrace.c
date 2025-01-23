@@ -2411,7 +2411,7 @@ unsigned long ftrace_get_addr_new(struct dyn_ftrace *rec)
 	}
 
 	if (rec->flags & FTRACE_FL_REGS)
-		return (unsigned long)FTRACE_REGS_ADDR;
+		return 0;
 	else
 		return (unsigned long)FTRACE_ADDR;
 }
@@ -2443,7 +2443,7 @@ unsigned long ftrace_get_addr_curr(struct dyn_ftrace *rec)
 	}
 
 	if (rec->flags & FTRACE_FL_REGS_EN)
-		return (unsigned long)FTRACE_REGS_ADDR;
+		return 0;
 	else
 		return (unsigned long)FTRACE_ADDR;
 }

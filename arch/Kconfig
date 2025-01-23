@@ -198,7 +198,6 @@ config HAVE_OPTPROBES
 
 config HAVE_KPROBES_ON_FTRACE
 	bool
-	default y
 
 config HAVE_NMI
 	bool

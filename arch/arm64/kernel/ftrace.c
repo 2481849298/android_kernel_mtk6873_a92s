@@ -142,6 +142,55 @@ int ftrace_make_call(struct dyn_ftrace *rec, unsigned long addr)
 	return ftrace_modify_code(pc, old, new, true);
 }
 
+#ifdef CONFIG_DYNAMIC_FTRACE_WITH_REGS
+int ftrace_modify_call(struct dyn_ftrace *rec, unsigned long old_addr,
+			unsigned long addr)
+{
+	unsigned long pc = rec->ip;
+	u32 old, new;
+
+	old = aarch64_insn_gen_branch_imm(pc, old_addr,
+					  AARCH64_INSN_BRANCH_LINK);
+	new = aarch64_insn_gen_branch_imm(pc, addr, AARCH64_INSN_BRANCH_LINK);
+
+	return ftrace_modify_code(pc, old, new, true);
+}
+
+/*
+ * The compiler has inserted two NOPs before the regular function prologue.
+ * All instrumented functions follow the AAPCS, so x0-x8 and x19-x30 are live,
+ * and x9-x18 are free for our use.
+ *
+ * At runtime we want to be able to swing a single NOP <-> BL to enable or
+ * disable the ftrace call. The BL requires us to save the original LR value,
+ * so here we insert a <MOV X9, LR> over the first NOP so the instructions
+ * before the regular prologue are:
+ *
+ * | Compiled | Disabled   | Enabled    |
+ * +----------+------------+------------+
+ * | NOP      | MOV X9, LR | MOV X9, LR |
+ * | NOP      | NOP        | BL <entry> |
+ *
+ * The LR value will be recovered by ftrace_regs_entry, and restored into LR
+ * before returning to the regular function prologue. When a function is not
+ * being traced, the MOV is not harmful given x9 is not live per the AAPCS.
+ *
+ * Note: ftrace_process_locs() has pre-adjusted rec->ip to be the address of
+ * the BL.
+ */
+int ftrace_init_nop(struct module *mod, struct dyn_ftrace *rec)
+{
+	unsigned long pc = rec->ip - AARCH64_INSN_SIZE;
+	u32 old, new;
+
+	old = aarch64_insn_gen_nop();
+	new = aarch64_insn_gen_move_reg(AARCH64_INSN_REG_9,
+					AARCH64_INSN_REG_LR,
+					AARCH64_INSN_VARIANT_64BIT);
+	return ftrace_modify_code(pc, old, new, true);
+}
+#endif
+
 /*
  * Turn off the call to ftrace_caller() in instrumented function
  */
