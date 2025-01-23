@@ -42,7 +42,7 @@ BUILD_ARGS="-j${TH_COUNT} ${DEF_ARGS}"
 compile_kernel() {
 
     echo -e "${CYAN}=============== Make defconfig  ===============${NC}"
-#    make CC="ccache clang" ${BUILD_ARGS} mtk6873_defconfig
+    make CC="ccache clang" ${BUILD_ARGS} mtk6873_defconfig
     
     # 检查 make 命令是否执行成功
     if [[ $? -ne 0 ]]; then
@@ -52,7 +52,7 @@ compile_kernel() {
     
         echo -e "${CYAN}=============== Make Kernel  ===============${NC}"
     start_time=$(date +%s)
-   make CC="ccache clang" ${BUILD_ARGS} modules_prepare 2>&1 | tee kernel.log
+   make CC="ccache clang" ${BUILD_ARGS} 2>&1 | tee kernel.log
 #  make CC="ccache clang" ${BUILD_ARGS} modules_prepare 2>&1 | tee kernel.log  
     # 检查 make 命令是否执行成功
     if [[ $? -ne 0 ]]; then
