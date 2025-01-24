@@ -1844,6 +1844,11 @@ static bool tcp_snd_wnd_test(const struct tcp_sock *tp,
 
 	return !after(end_seq, tcp_wnd_end(tp));
 }
+#else
+
+extern bool tcp_snd_wnd_test(const struct tcp_sock *tp, const struct sk_buff *skb,
+		      unsigned int cur_mss);
+
 #endif
 
 /* Trim TSO SKB to LEN bytes, put the remaining data into a new packet

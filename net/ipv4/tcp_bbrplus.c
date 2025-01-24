@@ -205,14 +205,8 @@ static const u32 bbr_extra_acked_max_us = 100 * 1000;
 /* Each cycle, try to hold sub-unity gain until inflight <= BDP. */
 static const bool bbr_drain_to_target = true;   /* default: enabled */
 
-#ifdef CONFIG_LGP_DATA_TCPIP_MPTCP
 bool tcp_snd_wnd_test(const struct tcp_sock *tp, const struct sk_buff *skb,
 		      unsigned int cur_mss)
-#else
-static bool tcp_snd_wnd_test(const struct tcp_sock *tp,
-			     const struct sk_buff *skb,
-			     unsigned int cur_mss)
-#endif
 {
         u32 end_seq = TCP_SKB_CB(skb)->end_seq;
 
