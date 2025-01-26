@@ -175,7 +175,6 @@ static unsigned long zero_ul;
 static unsigned long one_ul = 1;
 static unsigned long long_max = LONG_MAX;
 static int one_hundred = 100;
-static int two_hundred = 200;
 #ifdef CONFIG_SCHED_WALT
 static int two_million = 2000000;
 #endif
@@ -2388,7 +2387,6 @@ int __init sysctl_init(void)
 	return 0;
 }
 
-#endif /* CONFIG_SYSCTL */
 
 /*
  * /proc/sys support
