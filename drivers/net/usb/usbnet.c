@@ -84,6 +84,48 @@ static int msg_level = -1;
 module_param (msg_level, int, 0);
 MODULE_PARM_DESC (msg_level, "Override default message level");
 
+enum netdev_id {
+	USBNET_ECM_USB0,
+	USBNET_RMMET_USB0,
+	USBNET_RMNET_USB1,
+	NUM_USBNET_IDS,
+};
+
+static const char * const netdev_names[] = {
+	"usb0",
+	"rmnet_usb0",
+	"rmnet_usb1"
+};
+
+static void *usbnet_ipc_log_ctxt[NUM_USBNET_IDS];
+
+static int name_to_netdev_id(char *name)
+{
+	if (!name)
+		goto error;
+
+	if (!strcmp(name, "usb0"))
+		return USBNET_ECM_USB0;
+	if (!strcmp(name, "rmnet_usb0"))
+		return USBNET_RMMET_USB0;
+	if (!strcmp(name, "rmnet_usb1"))
+		return USBNET_RMNET_USB1;
+
+error:
+	return -EINVAL;
+}
+
+static int debug_mask;
+module_param(debug_mask, int, 0644);
+MODULE_PARM_DESC(debug_mask, "Control data packet IPC logging");
+
+#define dbg_log_string(fmt, ...) do { \
+if ((dev->netdev_id == USBNET_RMNET_USB1 && debug_mask == 1) || \
+					debug_mask == 2) \
+	ipc_log_string(dev->ipc_log_ctxt, "%s: " fmt, \
+		       __func__, ##__VA_ARGS__); \
+} while (0)
+
 /*-------------------------------------------------------------------------*/
 
 /* handles CDC Ethernet and many other network "bulk data" interfaces */
@@ -1826,6 +1868,10 @@ usbnet_probe (struct usb_interface *udev, const struct usb_device_id *prod)
 	if (dev->driver_info->flags & FLAG_LINK_INTR)
 		usbnet_link_change(dev, 0, 0);
 
+	dev->netdev_id = name_to_netdev_id(dev->net->name);
+	if (dev->netdev_id >= 0)
+		dev->ipc_log_ctxt = usbnet_ipc_log_ctxt[dev->netdev_id];
+
 	return 0;
 
 out5:
@@ -2188,6 +2234,8 @@ EXPORT_SYMBOL_GPL(usbnet_write_cmd_async);
 
 static int __init usbnet_init(void)
 {
+	int i = 0;
+
 	/* Compiler should optimize this out. */
 	BUILD_BUG_ON(
 		FIELD_SIZEOF(struct sk_buff, cb) < sizeof(struct skb_data));
