@@ -1,0 +1,4 @@
+kernel/drivers/gpu/drm/panel/panel-tianma-nt36672c-cphy-vdo.ko
+kernel/drivers/gpu/drm/panel/panel-jdi-nt36672c-cphy-vdo.ko
+kernel/drivers/gpu/drm/panel/panel-jdi-hx83112f-cphy-vdo.ko
+kernel/drivers/gpu/drm/panel/panel-tianma-120-nt36672c-cphy-vdo.ko
