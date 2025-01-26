@@ -213,12 +213,8 @@ static int cx82310_bind(struct usbnet *dev, struct usb_interface *intf)
 	}
 
 	/* enable ethernet mode (?) */
-<<<<<<< HEAD
 	ret = cx82310_enable_ethernet(dev);
 	if (ret)
-=======
-	if (cx82310_enable_ethernet(dev))
->>>>>>> 11467885323c (cx82310_eth: re-enable ethernet mode after router reboot)
 		goto err;
 
 	/* get the MAC address */

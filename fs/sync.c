@@ -255,17 +255,15 @@ static int do_fsync(unsigned int fd, int datasync)
 	struct fd f = fdget(fd);
 	int ret = -EBADF;
 
-<<<<<<< HEAD
 #if defined(OPLUS_FEATURE_HEALTHINFO) && defined(CONFIG_OPLUS_HEALTHINFO)
 // Add for record  fsync  time
     unsigned long fsync_time = jiffies;
 #endif /*OPLUS_FEATURE_HEALTHINFO*/
-=======
+
 #ifdef CONFIG_DYNAMIC_FSYNC
 	if (likely(dyn_fsync_active && suspend_active))
 		return 0;
 #endif
->>>>>>> c7766b71a3fe (fs: Implement Dynamic Fsync)
 
 	if (f.file) {
 		ret = vfs_fsync(f.file, datasync);
