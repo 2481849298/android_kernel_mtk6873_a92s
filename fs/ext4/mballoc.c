@@ -5350,7 +5350,7 @@ int ext4_trim_fs(struct super_block *sb, struct fstrim_range *range)
 
 		if (grp->bb_free >= minlen) {
 			cnt = ext4_trim_all_free(sb, group, first_cluster,
-						end, minlen);
+						end, minlen, whole_group);
 			if (cnt < 0) {
 				ret = cnt;
 				break;

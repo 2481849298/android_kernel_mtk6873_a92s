@@ -1,0 +1,7 @@
+kernel/drivers/misc/mediatek/geniezone/gz-trusty/trusty.ko
+kernel/drivers/misc/mediatek/geniezone/gz-trusty/trusty-irq.ko
+kernel/drivers/misc/mediatek/geniezone/gz-trusty/trusty-mem.ko
+kernel/drivers/misc/mediatek/geniezone/gz-trusty/trusty-virtio.ko
+kernel/drivers/misc/mediatek/geniezone/gz-trusty/trusty-ipc.ko
+kernel/drivers/misc/mediatek/geniezone/gz-trusty/smcnr-table.ko
+kernel/drivers/misc/mediatek/geniezone/gz-trusty/gz-log.ko
