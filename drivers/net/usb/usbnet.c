@@ -45,6 +45,7 @@
 #include <linux/slab.h>
 #include <linux/kernel.h>
 #include <linux/pm_runtime.h>
+#include <linux/ipc_logging.h>
 
 #define DRIVER_VERSION		"22-Aug-2005"
 
