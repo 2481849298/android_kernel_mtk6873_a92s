@@ -407,8 +407,8 @@ static int ipheth_close(struct net_device *net)
 {
 	struct ipheth_device *dev = netdev_priv(net);
 
-	netif_stop_queue(net);
 	cancel_delayed_work_sync(&dev->carrier_work);
+	netif_stop_queue(net);
 	return 0;
 }
 
@@ -497,7 +497,7 @@ static int ipheth_probe(struct usb_interface *intf,
 
 	netdev->netdev_ops = &ipheth_netdev_ops;
 	netdev->watchdog_timeo = IPHETH_TX_TIMEOUT;
-	strscpy(netdev->name, "eth%d", sizeof(netdev->name));
+	strcpy(netdev->name, "eth%d");
 
 	dev = netdev_priv(netdev);
 	dev->udev = udev;
