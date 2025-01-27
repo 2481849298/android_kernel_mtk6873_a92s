@@ -264,6 +264,10 @@ struct fsnotify_mark {
 	unsigned int flags;		/* flags [mark->lock] */
 };
 
+	/* inotify mark flags */
+#define FSNOTIFY_MARK_FLAG_EXCL_UNLINK		0x0010
+#define FSNOTIFY_MARK_FLAG_IN_ONESHOT		0x0020
+
 #ifdef CONFIG_FSNOTIFY
 
 /* called from the vfs helpers */
